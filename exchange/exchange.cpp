@@ -45,10 +45,13 @@ int main() {
             currencies();
         } else if (sev_type == '0') {
             cout << "感谢您的使用" << endl;
-            return 0;
+            _sleep(1000); // 等待 1 秒
+            return 0; // 退出程序
+            break; // 跳出循环，准备退出程序
         }
     }
 }
+
 void clearScreen() {
     cout << "\033[2J\033[1;1H"; // 使用 ANSI Escape Code 清屏
 }
@@ -101,8 +104,8 @@ void calculate(const string& fromCode, const string& toCode) {
         cin >> num;
         if (num <= 0 || cin.fail()) {
             cout << "无效输入，请输入一个正数！" << endl;
-            cin.clear(); // 清除cin的错误状态
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // 忽略缓冲区中直到下一个换行符的所有字符
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         } else {
             break;
         }
@@ -112,6 +115,10 @@ void calculate(const string& fromCode, const string& toCode) {
     float exchange = fetch_exchange_rate(fromCode, toCode, num);
     if (exchange != -1) {
         cout << "兑换结果：" << num << " " << fromCode << " = " << exchange << " " << toCode << endl;
+        cout << "感谢您的使用，再见！" << endl; // 输出结束提示
+        cout << "3秒后将回到主页面" << endl;
+        _sleep(3000); // 等待 3 秒
+        clearScreen(); // 清除之前的输出
     } else {
         cout << "获取汇率失败，请稍后再试！" << endl;
     }
