@@ -18,7 +18,7 @@ private:
 	static int num;
 
 public:
-	const string Mark[4] = {"ºìÌÒ", "ºÚÌÒ", "·½¿é", "Ã·»¨"};
+	const string Mark[4] = {"çº¢æ¡ƒ", "é»‘æ¡ƒ", "æ–¹å—", "æ¢…èŠ±"};
 	const string Point[13] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 	Poker()
 	{
@@ -52,7 +52,7 @@ public:
 		exit(EXIT_FAILURE);
 	};
 };
-// È«²¿´´½¨º¯ÊıÓÅÏÈÉùÃ÷
+// å…¨éƒ¨åˆ›å»ºå‡½æ•°ä¼˜å…ˆå£°æ˜
 void showBlackjack_banker(Poker blackjack, int card_now, Card dealer[1][8], Card player[][8], int player_game[7], int player_num, int count[8]);
 void showBlackjack_player(const Card c[7][8], int player_game[7], int player_num, int count[8]);
 void ask_deal(int player_game[7], int player_index);
@@ -65,11 +65,11 @@ int menu(int banker_game, int card_now, int count[8], int player_num, int player
 int deal(int banker_game, int card_now, int count[8], int player_num, int player_game[7], Poker blackjack, Card dealer[1][8], Card player[][8]);
 int is_all_player_finished(int player_game[7], int player_num);
 
-int player_sum[7] = {0, 0, 0, 0, 0, 0, 0}; // Íæ¼Ò³É¼¨
+int player_sum[7] = {0, 0, 0, 0, 0, 0, 0}; // ç©å®¶æˆç»©
 
-int player_game[7] = {0, 0, 0, 0, 0, 0, 0}; // Íæ¼Ò¶ÔÅÆµÄ²Ù×÷£¬-1´ú±í±¬£¬0´ú±íÎŞ´ËÍæ¼Ò£¬1´ú±íÈ¡ÏûÒªÅÆµ«ÊÇĞ¡ÓÚ21µã£¬2´ú±í»¹ÔÚÒªÅÆ,9´ú±í³õÊ¼»¯
+int player_game[7] = {0, 0, 0, 0, 0, 0, 0}; // ç©å®¶å¯¹ç‰Œçš„æ“ä½œï¼Œ-1ä»£è¡¨çˆ†ï¼Œ0ä»£è¡¨æ— æ­¤ç©å®¶ï¼Œ1ä»£è¡¨å–æ¶ˆè¦ç‰Œä½†æ˜¯å°äº21ç‚¹ï¼Œ2ä»£è¡¨è¿˜åœ¨è¦ç‰Œ,9ä»£è¡¨åˆå§‹åŒ–
 
-int card_now = 0; // ÏÖÔÚÒÑ¾­ÓÃµôµÄÅÆÊı
+int card_now = 0; // ç°åœ¨å·²ç»ç”¨æ‰çš„ç‰Œæ•°
 
 int main()
 {
@@ -78,25 +78,25 @@ int main()
 	while (start_again == '0' || start_again == 'c')
 	{
 		system("cls");
-		int banker_game = 9;	 // ×¯¼Ò¶ÔÅÆµÄ²Ù×÷
-		Poker blackjack;		 // ½¨Á¢52ÕÅÆË¿ËÅÆ
-		blackjack.randomPoker(); // Ï´ÅÆ
+		int banker_game = 9;	 // åº„å®¶å¯¹ç‰Œçš„æ“ä½œ
+		Poker blackjack;		 // å»ºç«‹52å¼ æ‰‘å…‹ç‰Œ
+		blackjack.randomPoker(); // æ´—ç‰Œ
 
-		int count[8]; // ¶ÔÓÚÃ¿Ò»¸öÍæ¼ÒµÄ³ÖÓĞÅÆÊı
+		int count[8]; // å¯¹äºæ¯ä¸€ä¸ªç©å®¶çš„æŒæœ‰ç‰Œæ•°
 		count[0] = 2;
 		int player_num;
 
-		// player_exist[0] = 1;//×¯¼Ò
-		// ×¯¼ÒÎª-1´ú±íÓÎÏ·½áÊø
+		// player_exist[0] = 1;//åº„å®¶
+		// åº„å®¶ä¸º-1ä»£è¡¨æ¸¸æˆç»“æŸ
 		cout << "--------------------------------" << endl;
-		cout << "|******ÄúÒÑ½øÈë21µãµÄÊÀ½ç******|" << endl;
+		cout << "|******æ‚¨å·²è¿›å…¥21ç‚¹çš„ä¸–ç•Œ******|" << endl;
 		cout << "--------------------------------" << endl;
-		cout << "ÇëÊäÈëÍæ¼Ò¸öÊı(1-7):";
+		cout << "è¯·è¾“å…¥ç©å®¶ä¸ªæ•°(1-7):";
 		cin >> player_num;
 		while (player_num > 7 | player_num < 1)
 		{
 			cout << endl;
-			cout << "ÊäÈë´íÎó£¬ÇëÔÙ´ÎÊäÈë£º";
+			cout << "è¾“å…¥é”™è¯¯ï¼Œè¯·å†æ¬¡è¾“å…¥ï¼š";
 			cin >> player_num;
 		}
 
@@ -105,17 +105,17 @@ int main()
 			// player_exist[i] = 1;
 			player_game[i - 1] = 9;
 			count[i] = 2;
-		} // ¶Ô´æÔÚÍæ¼Ò½øĞĞÈ·¶¨
+		} // å¯¹å­˜åœ¨ç©å®¶è¿›è¡Œç¡®å®š
 
 		Card dealer[1][8], player[7][8];
 
-		// card_now = 0;//·¢ÅÆ³õÊ¼»¯
+		// card_now = 0;//å‘ç‰Œåˆå§‹åŒ–
 		card_now = menu(banker_game, card_now, count, player_num, player_game, blackjack, dealer, player);
 		int is_finished = is_all_player_finished(player_game, player_num);
 		if (is_finished == -1)
 		{
 			cout << endl
-				 << "ÓÎÏ·½áÊø£¡" << endl;
+				 << "æ¸¸æˆç»“æŸï¼" << endl;
 			showBlackjack_banker(blackjack, card_now, dealer, player, player_game, player_num, count);
 			showBlackjack_player(player, player_game, player_num, count);
 			winBlackjack(dealer, player, player_game, player_num, count);
@@ -124,46 +124,46 @@ int main()
 		{
 			if (banker_game == 9)
 			{
-				// ËùÓĞÍæ¼Ò¶¼Íê³ÉÁË¶Ô×Ô¼ºÅÆµÄ²Ù×÷£¬½ÓÏÂÀ´ÊÇ×¯¼Ò¶Ô×Ô¼ºÅÆµÄ²Ù×÷
+				// æ‰€æœ‰ç©å®¶éƒ½å®Œæˆäº†å¯¹è‡ªå·±ç‰Œçš„æ“ä½œï¼Œæ¥ä¸‹æ¥æ˜¯åº„å®¶å¯¹è‡ªå·±ç‰Œçš„æ“ä½œ
 				cout << endl
-					 << "ËùÓĞÍæ¼Ò²Ù×÷½áÊø£¬";
-				cout << "Çë¡¾×¯¼Ò¡¿ÁÁÅÆ" << endl;
+					 << "æ‰€æœ‰ç©å®¶æ“ä½œç»“æŸï¼Œ";
+				cout << "è¯·ã€åº„å®¶ã€‘äº®ç‰Œ" << endl;
 				showBlackjack_banker(blackjack, card_now, dealer, player, player_game, player_num, count);
 			}
 			while (banker_game == 2 || banker_game == 9)
 			{
-				// ÅĞ¶Ï×¯¼ÒÊÖÉÏµÄµãÊıÊÇ·ñĞ¡ÓÚµÈÓÚ16£¬Èç¹ûÒ»Ö±Ğ¡ÓÚµÈÓÚ16ÔòÒ»Ö±¸ø×¯¼Ò·¢ÅÆ
+				// åˆ¤æ–­åº„å®¶æ‰‹ä¸Šçš„ç‚¹æ•°æ˜¯å¦å°äºç­‰äº16ï¼Œå¦‚æœä¸€ç›´å°äºç­‰äº16åˆ™ä¸€ç›´ç»™åº„å®¶å‘ç‰Œ
 				while (bustdealer(dealer, count[0]) <= 16)
 				{
-					cout << "Íæ¼ÒÅÆ×´¿öÈçÏÂ" << endl;
+					cout << "ç©å®¶ç‰ŒçŠ¶å†µå¦‚ä¸‹" << endl;
 					showBlackjack_player(player, player_game, player_num, count);
 					cout << endl
-						 << "×¯¼ÒÅÆ×´¿öÈçÏÂ" << endl;
+						 << "åº„å®¶ç‰ŒçŠ¶å†µå¦‚ä¸‹" << endl;
 					showBlackjack_banker(blackjack, card_now, dealer, player, player_game, player_num, count);
-					// Õ¹Ê¾×¯¼ÒµÄÊÖÅÆ
+					// å±•ç¤ºåº„å®¶çš„æ‰‹ç‰Œ
 					int sum = bustdealer(dealer, count[0]);
-					cout << "¡¾×¯¼Ò¡¿ ÊÖÅÆ×ÜºÍÎª " << sum << " " << "¡¾×¯¼Ò¡¿ĞèÒª¼ÌĞøÃşÅÆ" << endl
+					cout << "ã€åº„å®¶ã€‘ æ‰‹ç‰Œæ€»å’Œä¸º " << sum << " " << "ã€åº„å®¶ã€‘éœ€è¦ç»§ç»­æ‘¸ç‰Œ" << endl
 						 << endl;
-					// ¸ø×¯¼Ò·¢ÅÆ
+					// ç»™åº„å®¶å‘ç‰Œ
 					card_now = deal(2, card_now, count, player_num, player_game, blackjack, dealer, player);
 				}
-				// ×¯¼ÒÊÖÅÆ´óÓÚ16
-				cout << "Íæ¼ÒÅÆ×´¿öÈçÏÂ" << endl;
+				// åº„å®¶æ‰‹ç‰Œå¤§äº16
+				cout << "ç©å®¶ç‰ŒçŠ¶å†µå¦‚ä¸‹" << endl;
 				showBlackjack_player(player, player_game, player_num, count);
 				cout << endl
-					 << "×¯¼ÒÅÆ×´¿öÈçÏÂ" << endl;
+					 << "åº„å®¶ç‰ŒçŠ¶å†µå¦‚ä¸‹" << endl;
 				showBlackjack_banker(blackjack, card_now, dealer, player, player_game, player_num, count);
-				// Õ¹Ê¾×¯¼ÒµÄÊÖÅÆ
+				// å±•ç¤ºåº„å®¶çš„æ‰‹ç‰Œ
 				if (bustdealer(dealer, count[0]) <= 21)
 				{
 					banker_game = ask_banker();
 					if (banker_game == 2)
 					{
-						// ¸ø×¯¼Ò¼ÓÅÆµÄº¯Êı
+						// ç»™åº„å®¶åŠ ç‰Œçš„å‡½æ•°
 						card_now = deal(banker_game, card_now, count, player_num, player_game, blackjack, dealer, player);
 					}
 					int sum = bustdealer(dealer, count[0]);
-					cout << "¡¾×¯¼Ò¡¿ ÊÖÅÆµãÊıÎª " << sum << endl;
+					cout << "ã€åº„å®¶ã€‘ æ‰‹ç‰Œç‚¹æ•°ä¸º " << sum << endl;
 				}
 				else
 					break;
@@ -171,7 +171,7 @@ int main()
 				// banker_game = 999;
 			}
 			cout << endl
-				 << "ÓÎÏ·½áÊø£¡±¾ÂÖÅÆĞÍÈçÏÂ" << endl;
+				 << "æ¸¸æˆç»“æŸï¼æœ¬è½®ç‰Œå‹å¦‚ä¸‹" << endl;
 			showBlackjack_banker(blackjack, card_now, dealer, player, player_game, player_num, count);
 			showBlackjack_player(player, player_game, player_num, count);
 			winBlackjack(dealer, player, player_game, player_num, count);
@@ -184,7 +184,7 @@ int main()
 
 int menu(int banker_game, int card_now, int count[8], int player_num, int player_game[7], Poker blackjack, Card dealer[1][8], Card player[][8])
 {
-	cout << "¡ª¡ª¡ª¡ª¡ªÕıÔÚ·¢ÅÆÖĞ¡ª¡ª¡ª¡ª¡ª" << endl;
+	cout << "â€”â€”â€”â€”â€”æ­£åœ¨å‘ç‰Œä¸­â€”â€”â€”â€”â€”" << endl;
 
 	for (int i = 0; i < player_num; i++)
 	{
@@ -199,7 +199,7 @@ int menu(int banker_game, int card_now, int count[8], int player_num, int player
 			}
 		}
 	}
-	cout << "¡¾×¯¼Ò¡¿ ";
+	cout << "ã€åº„å®¶ã€‘ ";
 	showBlackjack_banker(blackjack, card_now, dealer, player, player_game, player_num, count);
 	cout << endl;
 
@@ -207,7 +207,7 @@ int menu(int banker_game, int card_now, int count[8], int player_num, int player
 	showBlackjack_player(player, player_game, player_num, count);
 	card_now = deal(banker_game, card_now, count, player_num, player_game, blackjack, dealer, player);
 	bustBlackjack(player, player_game, player_num, count);
-	for (int i = 0; i < player_num; i++) // ½«´ËÑ­»·×¢ÊÍºó£¬¿ÉÒÔÊµÏÖÍæ¼Ò¶à´ÎÈ¡ÅÆ
+	for (int i = 0; i < player_num; i++) // å°†æ­¤å¾ªç¯æ³¨é‡Šåï¼Œå¯ä»¥å®ç°ç©å®¶å¤šæ¬¡å–ç‰Œ
 	{
 		if (player_sum[i] <= 21)
 			player_game[i] = 1;
@@ -222,21 +222,21 @@ int deal(int banker_game, int card_now, int count[8], int player_num, int player
 	int is_finished = is_all_player_finished(player_game, player_num);
 	if (is_finished == 1)
 	{
-		// ³õÊ¼»¯½×¶Î
+		// åˆå§‹åŒ–é˜¶æ®µ
 	}
 	else if (is_finished == 2)
 	{
-		// »¹ÓĞÍæ¼ÒÎ´½áÊøÒªÅÆ½×¶Î
+		// è¿˜æœ‰ç©å®¶æœªç»“æŸè¦ç‰Œé˜¶æ®µ
 		for (int i = 0; i < player_num; i++)
 		{
-			// Ö»ÓĞµ±Íæ¼Ò´¦ÓÚÒªÅÆ½×¶ÎÊ±²Å¸ø¸ÃÍæ¼Ò·¢ÅÆ
+			// åªæœ‰å½“ç©å®¶å¤„äºè¦ç‰Œé˜¶æ®µæ—¶æ‰ç»™è¯¥ç©å®¶å‘ç‰Œ
 			if (player_game[i] == 2)
 				player[i][count[i + 1]++] = blackjack.dealPoker(card_now++);
 		}
 	}
 	else if (is_finished == 3)
 	{
-		// ËùÓĞÍæ¼Ò½áÊøÒªÅÆ£¬¸ø×¯¼Ò·¢ÅÆ
+		// æ‰€æœ‰ç©å®¶ç»“æŸè¦ç‰Œï¼Œç»™åº„å®¶å‘ç‰Œ
 		if (banker_game == 2)
 			dealer[0][count[0]++] = blackjack.dealPoker(card_now++);
 	}
@@ -256,86 +256,86 @@ int is_all_player_finished(int player_game[7], int player_num)
 
 	if (sum == player_num)
 	{
-		// ËùÓĞÍæ¼Ò¶¼½áÊøÒªÅÆ½×¶Î
+		// æ‰€æœ‰ç©å®¶éƒ½ç»“æŸè¦ç‰Œé˜¶æ®µ
 		if (sum_bao == -player_num)
-			result = -1; // ËùÓĞÍæ¼Ò±¬ÅÆ
+			result = -1; // æ‰€æœ‰ç©å®¶çˆ†ç‰Œ
 		else
-			result = 3; // ÂÖµ½×¯¼Ò¿ªÊ¼ÒªÅÆ
+			result = 3; // è½®åˆ°åº„å®¶å¼€å§‹è¦ç‰Œ
 	}
 	else if (sum > player_num && sum < player_num * 81)
 	{
-		// »¹ÓĞÍæ¼Ò´¦ÓÚÒªÅÆ½×¶Î
-		result = 2; // Ö»ÏÔÊ¾³ö×¯¼ÒµÄÅÆµ«ÊÇ²»ÂÖµ½×¯¼ÒÒªÅÆ
+		// è¿˜æœ‰ç©å®¶å¤„äºè¦ç‰Œé˜¶æ®µ
+		result = 2; // åªæ˜¾ç¤ºå‡ºåº„å®¶çš„ç‰Œä½†æ˜¯ä¸è½®åˆ°åº„å®¶è¦ç‰Œ
 	}
 	else if (sum == player_num * 81)
 	{
-		// ³õÊ¼»¯½×¶Î£¬ËùÓĞÍæ¼Ò¶¼Ã»ÓĞ¿ªÊ¼ÒªÅÆ½×¶Î£¬´ËÊ±Ö»ÏÔÊ¾Ò»ÕÅ×¯¼ÒµÄÅÆ
+		// åˆå§‹åŒ–é˜¶æ®µï¼Œæ‰€æœ‰ç©å®¶éƒ½æ²¡æœ‰å¼€å§‹è¦ç‰Œé˜¶æ®µï¼Œæ­¤æ—¶åªæ˜¾ç¤ºä¸€å¼ åº„å®¶çš„ç‰Œ
 		result = 1;
 	}
 	return result;
 }
 
-// ½«×¯¼ÒµÄÅÆÕ¹Ê¾³öÀ´
+// å°†åº„å®¶çš„ç‰Œå±•ç¤ºå‡ºæ¥
 void showBlackjack_banker(Poker blackjack, int card_now, Card dealer[1][8], Card player[][8], int player_game[7], int player_num, int count[8])
-// ×¯¼ÒµÄÅÆ¿â£¬Íæ¼Ò³ÖÅÆ×´Ì¬Êı×é£¬Íæ¼ÒÊıÁ¿£¬¶ÔÓÚ×¯¼ÒºÍÍæ¼ÒµÄ³ÖÅÆÊı
+// åº„å®¶çš„ç‰Œåº“ï¼Œç©å®¶æŒç‰ŒçŠ¶æ€æ•°ç»„ï¼Œç©å®¶æ•°é‡ï¼Œå¯¹äºåº„å®¶å’Œç©å®¶çš„æŒç‰Œæ•°
 {
 	int is_finished;
 	is_finished = is_all_player_finished(player_game, player_num);
 	if (is_finished == 1)
 	{
-		cout << "»¨É«£º";
-		// ¿ªÊ¼½×¶Î£¬×¯¼ÒÖ»ÏÔÊ¾µÚÒ»ÕÅÅÆ
+		cout << "èŠ±è‰²ï¼š";
+		// å¼€å§‹é˜¶æ®µï¼Œåº„å®¶åªæ˜¾ç¤ºç¬¬ä¸€å¼ ç‰Œ
 		cout << dealer[0][0].mark << dealer[0][0].point;
 	}
 	else if (is_finished == 2)
 	{
-		cout << "»¨É«£º";
-		// Õ¹Ê¾×¯¼ÒµÄÁ½ÕÅÅÆ£¬²»ÒªÅÆ
+		cout << "èŠ±è‰²ï¼š";
+		// å±•ç¤ºåº„å®¶çš„ä¸¤å¼ ç‰Œï¼Œä¸è¦ç‰Œ
 		for (int i = 0; i < count[0]; i++)
 			cout << dealer[0][i].mark << dealer[0][i].point << "   ";
-		cout << "µãÊı:" << bustdealer(dealer, count[0]);
+		cout << "ç‚¹æ•°:" << bustdealer(dealer, count[0]);
 		cout << endl;
 	}
 	else if (is_finished == 3)
 	{
-		// Õ¹Ê¾×¯¼ÒµÄËùÓĞÅÆ£¬²¢Ñ¯ÎÊÊÇ·ñÒªÅÆ
-		cout << "¡¾×¯¼Ò¡¿ " << "»¨É«£º";
+		// å±•ç¤ºåº„å®¶çš„æ‰€æœ‰ç‰Œï¼Œå¹¶è¯¢é—®æ˜¯å¦è¦ç‰Œ
+		cout << "ã€åº„å®¶ã€‘ " << "èŠ±è‰²ï¼š";
 		for (int i = 0; i < count[0]; i++)
 			cout << dealer[0][i].mark << dealer[0][i].point << "   ";
-		cout << "µãÊı:" << bustdealer(dealer, count[0]);
+		cout << "ç‚¹æ•°:" << bustdealer(dealer, count[0]);
 		cout << endl;
 	}
 }
 
-// Õ¹Ê¾Íæ¼ÒµÄÅÆ
+// å±•ç¤ºç©å®¶çš„ç‰Œ
 void showBlackjack_player(const Card c[7][8], int player_game[7], int player_num, int count[8])
-// Íæ¼ÒµÄÅÆ¿â£¬Íæ¼ÒÊÇ·ñ±¬µô£¬Íæ¼Ò¸öÊı£¬Ã¿¸öÍæ¼Ò³ÖÓĞÅÆÊı
+// ç©å®¶çš„ç‰Œåº“ï¼Œç©å®¶æ˜¯å¦çˆ†æ‰ï¼Œç©å®¶ä¸ªæ•°ï¼Œæ¯ä¸ªç©å®¶æŒæœ‰ç‰Œæ•°
 {
-	cout << "Íæ¼ÒÊÖÖĞ³ÖÓĞµÄÅÆ" << endl;
+	cout << "ç©å®¶æ‰‹ä¸­æŒæœ‰çš„ç‰Œ" << endl;
 	for (int i = 0; i < player_num; i++)
 	{
-		cout << "¡¾Íæ¼Ò" << i + 1 << "¡¿";
+		cout << "ã€ç©å®¶" << i + 1 << "ã€‘";
 		for (int j = 0; j < count[i + 1]; j++)
 		{
 			cout << c[i][j].mark << c[i][j].point;
 			cout << "   ";
 		}
-		cout << "µãÊı£º" << player_sum[i];
+		cout << "ç‚¹æ•°ï¼š" << player_sum[i];
 		cout << endl;
 	}
 	cout << endl;
 	if (player_game[0] != -1 && player_game[0] != 1)
-		cout << "Ñ¯ÎÊÍæ¼ÒÊÇ·ñÃşÅÆ£º" << endl;
+		cout << "è¯¢é—®ç©å®¶æ˜¯å¦æ‘¸ç‰Œï¼š" << endl;
 	else
-		cout << "Íæ¼Ò×´Ì¬£º" << endl;
+		cout << "ç©å®¶çŠ¶æ€ï¼š" << endl;
 	for (int i = 0; i < player_num; i++)
 	{
-		// Íæ¼ÒÃ»ÓĞ±¬Êä³ö
+		// ç©å®¶æ²¡æœ‰çˆ†è¾“å‡º
 
 		if (player_game[i] == 1)
-			cout << "¡¾Íæ¼Ò" << i + 1 << "¡¿²»ÄÜÈ¡ÅÆ" << endl;
+			cout << "ã€ç©å®¶" << i + 1 << "ã€‘ä¸èƒ½å–ç‰Œ" << endl;
 		else if (player_game[i] == -1)
-			cout << "¡¾Íæ¼Ò" << i + 1 << "¡¿BOOM!" << endl;
+			cout << "ã€ç©å®¶" << i + 1 << "ã€‘BOOM!" << endl;
 		else if (player_game[i] == 2 || player_game[i] == 9)
 			ask_deal(player_game, i);
 	}
@@ -344,7 +344,7 @@ void showBlackjack_player(const Card c[7][8], int player_game[7], int player_num
 
 char start_pass()
 {
-	cout << "ÔÙÀ´Ò»¾Ö?(c/q):";
+	cout << "å†æ¥ä¸€å±€?(c/q):";
 	string str;
 	char ch = 'x';
 	int temp = 0;
@@ -357,7 +357,7 @@ char start_pass()
 			ch = str[0];
 		if (!isalpha(ch))
 		{
-			cout << "ÔÙÀ´Ò»¾Ö?(c/q):";
+			cout << "å†æ¥ä¸€å±€?(c/q):";
 			continue;
 		}
 
@@ -370,9 +370,9 @@ char start_pass()
 			temp++;
 			break;
 		default:
-			cout << "ÔÙÀ´Ò»¾Ö?(c/q):";
+			cout << "å†æ¥ä¸€å±€?(c/q):";
 			continue;
-		} // breakºÍcontinue´æÔÚµÄÑ­»·
+		} // breakå’Œcontinueå­˜åœ¨çš„å¾ªç¯
 
 		if (temp == 1)
 			break;
@@ -380,11 +380,11 @@ char start_pass()
 	return ch;
 }
 
-// Ñ¯ÎÊ×¯¼ÒÊÇ·ñ·¢ÅÆ
+// è¯¢é—®åº„å®¶æ˜¯å¦å‘ç‰Œ
 int ask_banker()
 {
 	int banker_game = 9;
-	cout << "¡¾×¯¼Ò¡¿ ÊÇ·ñ¼ÌĞø·¢ÅÆ?(y/n):";
+	cout << "ã€åº„å®¶ã€‘ æ˜¯å¦ç»§ç»­å‘ç‰Œ?(y/n):";
 	string str;
 	char ch;
 	int temp = 0;
@@ -397,7 +397,7 @@ int ask_banker()
 			ch = str[0];
 		if (!isalpha(ch))
 		{
-			cout << "ÊÇ·ñ¼ÌĞø·¢ÅÆ?(y/n):";
+			cout << "æ˜¯å¦ç»§ç»­å‘ç‰Œ?(y/n):";
 			continue;
 		}
 
@@ -412,9 +412,9 @@ int ask_banker()
 			temp++;
 			break;
 		default:
-			cout << "ÊÇ·ñ¼ÌĞø·¢ÅÆ?(y/n):";
+			cout << "æ˜¯å¦ç»§ç»­å‘ç‰Œ?(y/n):";
 			continue;
-		} // breakºÍcontinue´æÔÚµÄÑ­»·
+		} // breakå’Œcontinueå­˜åœ¨çš„å¾ªç¯
 
 		if (temp == 1)
 			break;
@@ -422,10 +422,10 @@ int ask_banker()
 	return banker_game;
 }
 
-// Ñ¯ÎÊÊÇ·ñ·¢ÅÆ
+// è¯¢é—®æ˜¯å¦å‘ç‰Œ
 void ask_deal(int player_game[7], int player_index)
-{ // Íæ¼Ò³ÖÅÆ×´Ì¬£¬µ±Ç°Íæ¼ÒÔÚÍæ¼Ò³ÖÅÆ×´Ì¬ÖĞµÄÏÂ±ê
-	cout << "¡¾Íæ¼Ò" << player_index + 1 << "¡¿ÊÇ·ñ¼ÌĞø·¢ÅÆ?(y/n):";
+{ // ç©å®¶æŒç‰ŒçŠ¶æ€ï¼Œå½“å‰ç©å®¶åœ¨ç©å®¶æŒç‰ŒçŠ¶æ€ä¸­çš„ä¸‹æ ‡
+	cout << "ã€ç©å®¶" << player_index + 1 << "ã€‘æ˜¯å¦ç»§ç»­å‘ç‰Œ?(y/n):";
 	string str;
 	char ch;
 	int temp = 0;
@@ -438,7 +438,7 @@ void ask_deal(int player_game[7], int player_index)
 			ch = str[0];
 		if (!isalpha(ch))
 		{
-			cout << "ÊÇ·ñ¼ÌĞø·¢ÅÆ?(y/n):";
+			cout << "æ˜¯å¦ç»§ç»­å‘ç‰Œ?(y/n):";
 			continue;
 		}
 
@@ -454,20 +454,20 @@ void ask_deal(int player_game[7], int player_index)
 			break;
 
 		default:
-			cout << "ÊÇ·ñ¼ÌĞø·¢ÅÆ?(y/n):";
+			cout << "æ˜¯å¦ç»§ç»­å‘ç‰Œ?(y/n):";
 			continue;
-		} // breakºÍcontinue´æÔÚµÄÑ­»·
+		} // breakå’Œcontinueå­˜åœ¨çš„å¾ªç¯
 
 		if (temp == 1)
 			break;
 	}
 }
 
-// ¼ì²âÍæ¼ÒµÄÅÆÊÇ·ñ±¬Õ¨ ÕâÀïÖ»Õë¶ÔÍæ¼ÒµÄÅÆ
+// æ£€æµ‹ç©å®¶çš„ç‰Œæ˜¯å¦çˆ†ç‚¸ è¿™é‡Œåªé’ˆå¯¹ç©å®¶çš„ç‰Œ
 void bustBlackjack(const Card c[][8], int player_game[7], int player_num, int count[8])
 {
 	int count_c1[7] = {0, 0, 0, 0, 0, 0, 0};
-	int exist_num = player_num; // »¹´æÔÚµÄÍæ¼ÒÊı
+	int exist_num = player_num; // è¿˜å­˜åœ¨çš„ç©å®¶æ•°
 
 	for (int i = 0; i < player_num; i++)
 	{
@@ -527,7 +527,7 @@ void bustBlackjack(const Card c[][8], int player_game[7], int player_num, int co
 	}
 }
 
-// ×¯¼ÒÊÖÉÏËùÓĞÅÆµÄµãÊıÖ®ºÍ
+// åº„å®¶æ‰‹ä¸Šæ‰€æœ‰ç‰Œçš„ç‚¹æ•°ä¹‹å’Œ
 int bustdealer(const Card d[][8], int count)
 {
 	int sum = 0;
@@ -576,13 +576,13 @@ int bustdealer(const Card d[][8], int count)
 	}
 	return sum;
 }
-// ¼ì²âÍæ¼ÒÑ¡Ôñ¿ªÅÆÖ®ºó×¯¼ÒÓ®»¹ÊÇÍæ¼ÒÓ®
+// æ£€æµ‹ç©å®¶é€‰æ‹©å¼€ç‰Œä¹‹ååº„å®¶èµ¢è¿˜æ˜¯ç©å®¶èµ¢
 void winBlackjack(const Card c[][8], const Card d[][8], int player_game[7], int player_num, int count[8])
 {
 	int count_c1 = 0;
-	int count_c2 = 0; // ×¯¼Ò
+	int count_c2 = 0; // åº„å®¶
 	int count_d1[7] = {0, 0, 0, 0, 0, 0, 0};
-	int count_d2[7] = {0, 0, 0, 0, 0, 0, 0}; // Íæ¼Ò
+	int count_d2[7] = {0, 0, 0, 0, 0, 0, 0}; // ç©å®¶
 
 	for (int i = 0; i < count[0]; i++)
 	{
@@ -743,22 +743,22 @@ void winBlackjack(const Card c[][8], const Card d[][8], int player_game[7], int 
 	}
 
 	cout << endl
-		 << "ÓÎÏ·½á¹û:" << endl;
+		 << "æ¸¸æˆç»“æœ:" << endl;
 	if (is_all_player_finished(player_game, player_num) == -1)
-	{ // ËµÃ÷ËùÓĞÍæ¼Ò¶¼±¬ÁË
-		cout << "ËùÓĞÍæ¼Ò¶¼µãÊı¶¼´óÓÚ21µã£¬±¬!" << endl
-			 << "¡¾×¯¼Ò¡¿WIN£¡" << endl;
+	{ // è¯´æ˜æ‰€æœ‰ç©å®¶éƒ½çˆ†äº†
+		cout << "æ‰€æœ‰ç©å®¶éƒ½ç‚¹æ•°éƒ½å¤§äº21ç‚¹ï¼Œçˆ†!" << endl
+			 << "ã€åº„å®¶ã€‘WINï¼" << endl;
 	}
 	else
 	{
 		if (count_c1 > 21)
 		{
-			cout << "¡¾×¯¼Ò¡¿ " << count_c1 << "µã,¡¾×¯¼Ò¡¿BOOM£¡\n";
+			cout << "ã€åº„å®¶ã€‘ " << count_c1 << "ç‚¹,ã€åº„å®¶ã€‘BOOMï¼\n";
 			for (int i = 0; i < 7; i++)
 			{
 				if (player_game[i] == 1)
 				{
-					cout << "¡¾Íæ¼Ò" << i + 1 << "¡¿" << count_d1[i] << "µã,¡¾Íæ¼Ò" << i + 1 << "¡¿WIN!" << endl;
+					cout << "ã€ç©å®¶" << i + 1 << "ã€‘" << count_d1[i] << "ç‚¹,ã€ç©å®¶" << i + 1 << "ã€‘WIN!" << endl;
 					cout << endl;
 				}
 			}
@@ -767,32 +767,32 @@ void winBlackjack(const Card c[][8], const Card d[][8], int player_game[7], int 
 		{
 			for (int i = 0; i < player_num; i++)
 			{
-				cout << "¡¾Íæ¼Ò" << i + 1 << "¡¿:" << endl;
+				cout << "ã€ç©å®¶" << i + 1 << "ã€‘:" << endl;
 				if (count_d1[i] > 21)
 				{
-					cout << "¡¾×¯¼Ò¡¿ " << count_c1 << "µã" << endl
-						 << "¡¾Íæ¼Ò" << i + 1 << "¡¿" << count_d1[i] << "µã	"
-						 << "¡¾Íæ¼Ò" << i + 1 << "¡¿BOOM,¡¾×¯¼Ò¡¿WIN" << endl;
+					cout << "ã€åº„å®¶ã€‘ " << count_c1 << "ç‚¹" << endl
+						 << "ã€ç©å®¶" << i + 1 << "ã€‘" << count_d1[i] << "ç‚¹	"
+						 << "ã€ç©å®¶" << i + 1 << "ã€‘BOOM,ã€åº„å®¶ã€‘WIN" << endl;
 				}
 				else
 				{
 					if (count_c1 > count_d1[i])
 					{
-						cout << "¡¾×¯¼Ò¡¿ " << count_c1 << "µã" << endl
-							 << "¡¾Íæ¼Ò" << i + 1 << "¡¿" << count_d1[i] << "µã	"
-							 << "¡¾×¯¼Ò¡¿WIN" << endl;
+						cout << "ã€åº„å®¶ã€‘ " << count_c1 << "ç‚¹" << endl
+							 << "ã€ç©å®¶" << i + 1 << "ã€‘" << count_d1[i] << "ç‚¹	"
+							 << "ã€åº„å®¶ã€‘WIN" << endl;
 					}
 
 					else if (count_c1 < count_d1[i])
 					{
-						cout << "¡¾×¯¼Ò¡¿ " << count_c1 << "µã" << endl
-							 << "¡¾Íæ¼Ò" << i + 1 << "¡¿" << count_d1[i] << "µã	"
-							 << "¡¾Íæ¼Ò" << i + 1 << "¡¿" << "WIN" << endl;
+						cout << "ã€åº„å®¶ã€‘ " << count_c1 << "ç‚¹" << endl
+							 << "ã€ç©å®¶" << i + 1 << "ã€‘" << count_d1[i] << "ç‚¹	"
+							 << "ã€ç©å®¶" << i + 1 << "ã€‘" << "WIN" << endl;
 					}
 					else
 					{
-						cout << "¡¾×¯¼Ò¡¿ " << count_c1 << "µã" << endl
-							 << "¡¾Íæ¼Ò" << i + 1 << "¡¿" << count_d1[i] << "µã	"
+						cout << "ã€åº„å®¶ã€‘ " << count_c1 << "ç‚¹" << endl
+							 << "ã€ç©å®¶" << i + 1 << "ã€‘" << count_d1[i] << "ç‚¹	"
 							 << "DOGFALL" << endl;
 					}
 				}
