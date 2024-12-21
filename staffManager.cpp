@@ -6,34 +6,37 @@
 #include <stdlib.h>
 using namespace std;
 
-const int n1 = 5, n2 = 1, n3 = 10, n4 = 1, n5 = 1; /*定义公司各类职工人数
-(n1：技术员人数；n2:经理人数；n3：销售员人数；n4:销售经理人数 ;n5：技术经理人数）
-可以更改相关技术员、销售员、技术经理、销售经理的数量*/
-const double m_salary = 20000;					   // 经理固定月工资
-const double hourpay = 0.05;					   // 技术员小时工资
-const double tbasicpay = 6000;					   // 技术人员的底薪
-const double basicpay = 8000;					   // 销售经理的底薪
-const double sbasicpay = 4000;					   // 销售人员的底薪
-const double s_proportion = 1.0 / 100;			   // 销售员的工资提成比例
-const double sm_proportion = 5.0 / 1000;		   // 销售经理的提成比例
-const double tm_proportion = 0.2 / 100;			   // 技术经理的奖金计算比例
+// 常量定义
+const int n1 = 5, n2 = 1, n3 = 10, n4 = 1, n5 = 1; // 各类职工人数
+const double MANAGER_SALARY = 20000;               // 经理固定月工资
+const double TECH_HOURLY_PAY = 0.05;               // 技术员小时工资
+const double TECH_BASE_PAY = 6000;                 // 技术人员的底薪
+const double SALES_MANAGER_BASE_PAY = 8000;        // 销售经理的底薪
+const double SALES_BASE_PAY = 4000;                // 销售人员的底薪
+const double SALES_COMMISSION = 0.01;              // 销售员的工资提成比例
+const double SALES_MANAGER_COMMISSION = 0.005;     // 销售经理的提成比例
+const double TECH_MANAGER_BONUS_RATE = 0.002;      // 技术经理的奖金比例
+
 // 函数声明部分：
-void menu();		// 主菜单
-void menu2();		// 输入二级菜单
-void menu3();		// 输出二级菜单
-void data_input();	// 数据输入函数
-void data_print();	// 数据打印
-void charthead1();	// 制作表头1函数，统计销售额
-void charthead2();	// 制作表头2函数，数据打印
-void charthead3();	// 制表头3函数，统计工作时间
-void chartend();	// 制作表尾
-void statistics();	// 数据统计
-double sm_salary(); // 销售经理工资计算
-double tm_salary(); // 技术经理工资计算
-void sm_print();	// 销售经理打印数据
-void tm_print();	// 技术经理打印数据
-void data_find();	// 数据查询
-string f_name;		// 全局变量（查询用）
+void print_main_menu();					 // 主菜单
+void print_input_menu();				 // 输入二级菜单
+void print_output_menu();		 		 // 输出二级菜单
+void input_employee_data();			 	 // 数据输入函数
+void print_employee_data(); 		     // 数据打印
+void print_sales_statistics();		 	 // 制作表头1函数，统计销售额
+void print_data_statistics();		     // 制作表头2函数，数据打印
+void print_work_statistics();			 // 制表头3函数，统计工作时间
+void print_table_footer();				 // 制作表尾
+void calculate_statistics();	 		 // 数据统计
+double calculate_sales_manager_salary(); // 销售经理工资计算
+double calculate_tech_manager_salary();  // 技术经理工资计算
+void print_sales_manager_data();	     // 销售经理打印数据
+void print_tech_manager_data();	    	 // 技术经理打印数据
+void find_employee_data();				 // 数据查询
+
+// 全局变量
+string search_name; // 查询用的全局变量
+
 // 定义类：
 class Person // 员工类（基类）
 {
@@ -65,11 +68,11 @@ public:
 	}
 	void find() // 查询函数
 	{
-		if (f_name == name)
+		if (search_name == name)
 		{
-			charthead2();
+			print_work_statistics();
 			print();
-			chartend();
+			print_table_footer();
 			cout << endl;
 		}
 	}
@@ -107,20 +110,20 @@ public:
 	}
 	void print()
 	{
-		pay = work_cmount * hourpay + tbasicpay;
+		pay = work_cmount * TECH_HOURLY_PAY + TECH_BASE_PAY;
 		cout << " ********************************************************\n"
 			 << endl;
 		cout << "  " << setw(6) << "2" << "  " << setw(6) << num << "  " << setw(8) << name << "  " << setw(7) << pay << "  " << setw(13) << tu << endl;
 	}
-	int t_number() // 调用技术员所属技术经理职工号
+	int get_technician_manager_id() // 调用技术员所属技术经理职工号
 	{
 		return tu;
 	}
-	double cmount() // 调用技术员工作时间
+	double getWorkHours() // 调用技术员工作时间
 	{
 		return work_cmount;
 	}
-	void t_grade() // 技术员工作时间输出
+	void display_technician_work_hours() // 技术员工作时间输出
 	{
 		cout << " ********************************************************\n"
 			 << endl;
@@ -129,7 +132,7 @@ public:
 	void find()
 	{
 		Person::find();
-		if (f_name == name)
+		if (search_name == name)
 		{
 			cout << " ********************************************************\n"
 				 << endl;
@@ -155,7 +158,7 @@ public:
 	}
 	void print()
 	{
-		pay = m_salary;
+		pay = MANAGER_SALARY;
 		//	Person::print();
 		cout << " ********************************************************\n"
 			 << endl;
@@ -174,11 +177,11 @@ public:
 		cout << "技术经理的";
 		Person::input();
 	}
-	int tm_number() // 调用技术经理职工号
+	int get_technical_manager_number() // 调用技术经理职工号
 	{
 		return num;
 	}
-	string tm_name() // 调用技术经理姓名
+	string get_technical_manager_name() // 调用技术经理姓名
 	{
 		return name;
 	}
@@ -197,11 +200,11 @@ public:
 		cout << "销售经理的";
 		Person::input();
 	}
-	int sm_number() // 调用销售经理职工号
+	int get_sales_manager_number() // 调用销售经理职工号
 	{
 		return num;
 	}
-	string sm_name() // 调用销售经理姓名
+	string get_sales_manager_name() // 调用销售经理姓名
 	{
 		return name;
 	}
@@ -251,22 +254,22 @@ public:
 	}
 	void print()
 	{
-		pay = sold_amount * s_proportion + sbasicpay;
+		pay = sold_amount * SALES_COMMISSION + SALES_BASE_PAY;
 		cout << " ********************************************************\n"
 			 << endl;
 		cout << "  " << setw(6) << "1" << "  " << setw(6) << num << "  " << setw(8) << name << "  " << setw(7) << pay << "  " << setw(13) << nu << "  " << endl;
 	}
-	int s_number() // 调用销售员所属销售经理职工号
+	int get_sales_manager_employee_i_d() // 调用销售员所属销售经理职工号
 	{
 		return nu;
 	}
-	double amount() // 调用销售员销售额
+	double getSoldAmount() // 调用销售员销售额
 	{
 		return sold_amount;
 	}
 	void find()
 	{
-		if (f_name == name)
+		if (search_name == name)
 		{
 			cout << " ********************************************************\n"
 				 << endl;
@@ -292,7 +295,7 @@ Tech_manager techManagers[n5]; // 技术经理（下属若干技术员）
 int main()
 {
 	char n;
-	menu();
+	print_main_menu();
 	for (int i = 0; i < 1000; i++) // 设定循环次数（便于各项操作的切换及方便查询）
 	{
 		cin >> n;
@@ -301,88 +304,88 @@ int main()
 		case '1': // 数据输入
 			system("cls");
 			cout << endl
-				 << "您所选操作为数据输入，请继续——" << endl
+				 << "您所选操作为数据输入，请继续" << endl
 				 << endl;
-			data_input();
+			input_employee_data();
 			cout << endl;
 			system("cls");
-			menu();
+			print_main_menu();
 			break;
 		case '2': // 数据统计
 			system("cls");
 			cout << endl
-				 << "您所选操作为数据统计，请继续——" << endl
+				 << "您所选操作为数据统计，请继续" << endl
 				 << endl;
-			statistics();
+			calculate_statistics();
 			cout << endl
 				 << "销售经理按工资排序为:" << '\n'
 				 << endl;
-			sm_print();
+			print_sales_manager_data();
 			cout << endl
 				 << "技术经理按工资排序为:" << '\n'
 				 << endl;
-			tm_print();
+			print_tech_manager_data();
 			cout << endl;
 			system("cls");
-			menu();
+			print_main_menu();
 			break;
 		case '3': // 数据打印
 			system("cls");
 			cout << endl
-				 << "您所选操作为数据输出，请继续——" << endl
+				 << "您所选操作为数据输出，请继续" << endl
 				 << endl;
-			data_print();
+			print_employee_data();
 			cout << endl
 				 << endl;
 			cout << '\a' << "——数据输出完毕——" << '\n'
 				 << '\n'
 				 << endl;
-			menu();
+			print_main_menu();
 			break;
 		case '4': // 数据查询
 			system("cls");
 			cout << endl
-				 << "您所选操作为数据查询，请继续——" << endl
+				 << "您所选操作为数据查询，请继续" << endl
 				 << endl;
 			cout << "请输入您要查询的职工姓名： ";
-			cin >> f_name;
+			cin >> search_name;
 			cout << "您查询的信息如下：" << endl
 				 << endl;
-			data_find();
+			find_employee_data();
 			cout << endl
 				 << endl;
-			menu();
+			print_main_menu();
 			break;
 		case '5': // 退出系统
 			system("cls");
 			cout << endl
-				 << "您所选操作为退出系统，请确认——" << endl
+				 << "您所选操作为退出系统，请确认" << endl
 				 << endl;
 			cout << " 是( y )" << " " << "否( n ) ";
 			cin >> n;
 			if (n == 'y')
 			{
 				cout << '\n'
-					 << "——请按任意键退出系统——" << endl;
+					 << "按任意键退出系统" << endl;
 				exit(0);
 				cout << endl;
 			}
 			else
-				menu();
+				print_main_menu();
 			break;
 		default:
 			system("cls");
 			cout << endl
-				 << "——出错！请重新选择操作！ " << '\n'
+				 << "出错！请重新选择操作！ " << '\n'
 				 << endl;
-			menu();
+			print_main_menu();
 			break;
 		}
 	}
 	return 0;
 }
 // 自定义函数部分：
-void menu() // 菜单函数
+void print_main_menu() // 菜单函数
 {
 	system("cls");
 	cout << "请选择您所需的操作: " << endl;
@@ -398,7 +401,7 @@ void menu() // 菜单函数
 	cout << endl;
 	cout << "请选择:";
 }
-void menu2() // 数据输入二级菜单函数
+void print_input_menu() // 数据输入二级菜单函数
 {
 	cout << "请选择您所需的操作: " << endl;
 	cout << "+=====================================================================+" << endl;
@@ -413,7 +416,7 @@ void menu2() // 数据输入二级菜单函数
 	cout << endl;
 	cout << " 请选择:";
 }
-void menu3() // 数据打印二级菜单函数
+void print_output_menu() // 数据打印二级菜单函数
 {
 	cout << "请选择您所需的操作: " << endl;
 	cout << "+=====================================================================+" << endl;
@@ -428,11 +431,11 @@ void menu3() // 数据打印二级菜单函数
 	cout << endl;
 	cout << " 请选择:";
 }
-void data_input() // 数据输入函数
+void input_employee_data() // 数据输入函数
 {
 	char p, q;
 	int i;
-	menu2();
+	print_input_menu();
 	for (int j = 0; j < 100; j++)
 	{
 		cin >> p;
@@ -447,7 +450,7 @@ void data_input() // 数据输入函数
 					m[i].input();
 				cout << endl
 					 << "-----------------------------------------------------" << endl;
-				menu2();
+				print_input_menu();
 				break;
 			case '2':
 				for (i = 0; i < n1; i++)
@@ -461,7 +464,7 @@ void data_input() // 数据输入函数
 				}
 				cout << endl
 					 << "-----------------------------------------------------" << endl;
-				menu2();
+				print_input_menu();
 				break;
 			case '3':
 				for (i = 0; i < n3; i++)
@@ -475,7 +478,7 @@ void data_input() // 数据输入函数
 				}
 				cout << endl
 					 << "-----------------------------------------------------" << endl;
-				menu2();
+				print_input_menu();
 				break;
 			case '4':
 				for (i = 0; i < n4; i++)
@@ -489,7 +492,7 @@ void data_input() // 数据输入函数
 				}
 				cout << endl
 					 << "--------------------------------------------------" << endl;
-				menu2();
+				print_input_menu();
 				break;
 			case '5':
 				for (i = 0; i < n4; i++)
@@ -503,50 +506,50 @@ void data_input() // 数据输入函数
 				}
 				cout << endl
 					 << "--------------------------------------------------" << endl;
-				menu2();
+				print_input_menu();
 				break;
 			}
 		}
 	}
 }
-void charthead1() // 制表头1
+void print_sales_statistics() // 制表头1
 {
 	cout << " ********************************************************\n"
 		 << endl;
 	cout << "级 别   职 工 号   姓 名   销 售 额  " << endl;
 }
-void charthead3() // 制表头3
+void print_work_statistics() // 制表头3
 {
 	cout << " ********************************************************\n"
 		 << endl;
 	cout << "级 别   职 工 号   姓 名   工 作 时 间  " << endl;
 }
-void charthead2() // 制表头2
+void print_data_statistics() // 制表头2
 {
 	cout << " ********************************************************\n"
 		 << endl;
 	cout << "   级 别   职 工 号   姓 名     工 资    " << endl;
 }
-void chartend() // 制表尾
+void print_table_footer() // 制表尾
 {
 	cout << " ********************************************************\n"
 		 << endl;
 }
-void statistics() // 数据统计函数
+void calculate_statistics() // 数据统计函数
 {
 	int i, j;
 	for (i = 0; i < n4; i++)
 	{
 		double sum = 0;
 		cout << endl
-			 << "职工号为 " << salesManagers[i].sm_number() << " 销售经理 " << salesManagers[i].sm_name()
+			 << "职工号为 " << salesManagers[i].get_sales_manager_number() << " 销售经理 " << salesManagers[i].get_sales_manager_name()
 			 << " 下属销售员的业绩为:" << endl
 			 << endl;
-		charthead1();
+		print_sales_statistics();
 		for (j = 0; j < n3; j++)
-			if (salesStaff[j].s_number() == salesManagers[i].sm_number())
+			if (salesStaff[j].get_sales_manager_employee_i_d() == salesManagers[i].get_sales_manager_number())
 			{
-				sum = sum + salesStaff[j].amount();
+				sum = sum + salesStaff[j].getSoldAmount();
 				salesStaff[j].grade();
 			}
 		cout << " ********************************************************\n"
@@ -558,17 +561,17 @@ void statistics() // 数据统计函数
 	for (i = 0; i < n5; i++)
 	{
 		cout << endl
-			 << "职工号为 " << techManagers[i].tm_number() << " 技术经理 " << techManagers[i].tm_name()
+			 << "职工号为 " << techManagers[i].get_technical_manager_number() << " 技术经理 " << techManagers[i].get_technical_manager_name()
 			 << " 下属技术员的业绩为:" << endl
 			 << endl;
 		double sum = 0;
-		charthead3();
+		print_work_statistics();
 		for (j = 0; j < n1; j++)
 		{
-			if (techStaff[j].t_number() == techManagers[i].tm_number())
+			if (techStaff[j].get_technician_manager_id() == techManagers[i].get_technical_manager_number())
 			{
-				sum = sum + techStaff[j].cmount();
-				techStaff[j].t_grade();
+				sum = sum + techStaff[j].getWorkHours();
+				techStaff[j].display_technician_work_hours();
 			}
 		}
 		cout << " ********************************************************\n"
@@ -579,7 +582,7 @@ void statistics() // 数据统计函数
 	}
 }
 double salary[n4];
-double sm_salary() // 销售经理工资计算及排序
+double calculate_sales_manager_salary() // 销售经理工资计算及排序
 {
 	int i, j;
 	double a;
@@ -590,10 +593,10 @@ double sm_salary() // 销售经理工资计算及排序
 	{
 		double sum = 0;
 		for (j = 0; j < n3; j++)
-			if (salesStaff[j].s_number() == salesManagers[i].sm_number())
+			if (salesStaff[j].get_sales_manager_employee_i_d() == salesManagers[i].get_sales_manager_number())
 			{
-				sum = sum + salesStaff[j].amount();
-				salary[i] = sum * sm_proportion + basicpay;
+				sum = sum + salesStaff[j].getSoldAmount();
+				salary[i] = sum * SALES_MANAGER_COMMISSION + SALES_MANAGER_BASE_PAY;
 			}
 	}
 	for (j = 0; j < n4 - 1; j++)
@@ -610,7 +613,7 @@ double sm_salary() // 销售经理工资计算及排序
 	return 0;
 }
 double t_salary[n5];
-double tm_salary() // 技术经理工资计算
+double calculate_tech_manager_salary() // 技术经理工资计算
 {
 	int i, j;
 	double a;
@@ -621,10 +624,10 @@ double tm_salary() // 技术经理工资计算
 	{
 		double sum = 0;
 		for (j = 0; j < n1; j++)
-			if (techStaff[j].t_number() == techManagers[i].tm_number())
+			if (techStaff[j].get_technician_manager_id() == techManagers[i].get_technical_manager_number())
 			{
-				sum = sum + techStaff[j].cmount();
-				t_salary[i] = sum * tm_proportion + basicpay;
+				sum = sum + techStaff[j].getWorkHours();
+				t_salary[i] = sum * TECH_MANAGER_BONUS_RATE + SALES_MANAGER_BASE_PAY;
 			}
 	}
 	for (j = 0; j < n4 - 1; j++)
@@ -640,35 +643,35 @@ double tm_salary() // 技术经理工资计算
 			}
 	return 0;
 }
-void sm_print() // 销售经理工资输出
+void print_sales_manager_data() // 销售经理工资输出
 {
-	sm_salary();
-	charthead2();
+	calculate_sales_manager_salary();
+	print_work_statistics();
 	for (int i = 0; i < n4; i++)
 	{
 		salesManagers[i].print();
 		cout << setw(7) << salary[i] << "   " << endl;
 	}
-	chartend();
+	print_table_footer();
 	cout << endl;
 }
-void tm_print() // 技术经理工资输出
+void print_tech_manager_data() // 技术经理工资输出
 {
-	tm_salary();
-	charthead2();
+	calculate_tech_manager_salary();
+	print_work_statistics();
 	for (int i = 0; i < n5; i++)
 	{
 		techManagers[i].print();
 		cout << setw(7) << t_salary[i] << "   " << endl;
 	}
-	chartend();
+	print_table_footer();
 	cout << endl;
 }
-void data_print() // 数据打印
+void print_employee_data() // 数据打印
 {
 	char p;
 	int i, j;
-	menu3();
+	print_output_menu();
 	for (j = 0; j < 100; j++)
 	{
 		cin >> p;
@@ -681,14 +684,14 @@ void data_print() // 数据打印
 			case '1':
 				cout << endl
 					 << "经理" << endl; // 经理信息
-				charthead2();
+				print_work_statistics();
 				for (i = 0; i < n2; i++)
 					m[i].print();
-				chartend();
+				print_table_footer();
 				cout << endl
 					 << endl
 					 << "-----------------------------------------------------------------------" << endl;
-				menu3();
+				print_output_menu();
 				break;
 			case '2':
 				cout << endl
@@ -703,7 +706,7 @@ void data_print() // 数据打印
 				cout << endl
 					 << endl
 					 << "-----------------------------------------------------------------------" << endl;
-				menu3();
+				print_output_menu();
 				break;
 			case '3':
 				cout << endl
@@ -719,35 +722,35 @@ void data_print() // 数据打印
 					 << endl
 					 << "------------------------------------------------------------------------" << '\n'
 					 << endl;
-				menu3();
+				print_output_menu();
 				break;
 			case '4':
 				cout << endl
 					 << "销售经理" << endl; // 销售经理信息
-				sm_salary();
-				sm_print();
+				calculate_sales_manager_salary();
+				print_sales_manager_data();
 				cout << endl
 					 << endl
 					 << "-----------------------------------------------------------------------" << endl
 					 << endl;
-				menu3();
+				print_output_menu();
 				break;
 			case '5':
 				cout << endl
 					 << "技术经理" << endl; // 技术经理信息
-				tm_salary();
-				tm_print();
+				calculate_tech_manager_salary();
+				print_tech_manager_data();
 				cout << endl
 					 << endl
 					 << "-----------------------------------------------------------------------" << endl
 					 << endl;
-				menu3();
+				print_output_menu();
 				break;
 			}
 		}
 	}
 }
-void data_find() // 数据查询函数
+void find_employee_data() // 数据查询函数
 {
 	int i;
 	for (i = 0; i < n1; i++)
@@ -757,22 +760,22 @@ void data_find() // 数据查询函数
 	for (i = 0; i < n3; i++)
 		salesStaff[i].find();
 	for (i = 0; i < n4; i++)
-		if (f_name == salesManagers[i].sm_name())
+		if (search_name == salesManagers[i].get_sales_manager_name())
 		{
-			charthead2();
+			print_work_statistics();
 			salesManagers[i].print();
 			cout << setw(7) << salary[i] << "   " << endl;
-			chartend();
+			print_table_footer();
 			cout << endl;
 			break;
 		}
 	for (i = 0; i < n5; i++)
-		if (f_name == techManagers[i].tm_name())
+		if (search_name == techManagers[i].get_technical_manager_name())
 		{
-			charthead2();
+			print_work_statistics();
 			techManagers[i].print();
 			cout << setw(7) << t_salary[i] << "   " << endl;
-			chartend();
+			print_table_footer();
 			cout << endl;
 			break;
 		}
