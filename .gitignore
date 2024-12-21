@@ -1,0 +1,39 @@
+# Object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Debug files
+*.pdb
+*.dSYM
+
+# Editor backup files
+*~
+
+# Build directories
+build/
+*.build/
+*/bin
+*/obj
+
+# Other common temporary and build files
+*.log
+*.sdf
+*.vcxproj.*
+*.sln.docstates
+*.vssscc
+*.vssscc.plist
+*.user
+*.userprefs
+*.suo
+*.swp
+*.swo
+*.tmp
+.DS_Store
+Thumbs.db
