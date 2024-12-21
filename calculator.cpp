@@ -1,113 +1,139 @@
-#include<iostream>
-#include<math.h> 
-#include<ctype.h>
-#include<string.h>
-#include<typeinfo>
-#include<algorithm>
+#include <iostream>
+#include <math.h>
+#include <ctype.h>
+#include <string.h>
+#include <typeinfo>
+#include <algorithm>
 #define MAX 100
 using namespace std;
 
 class Bignumber
 {
-public://对大数进行储存，可以更改位数 
+public: // 对大数进行储存，可以更改位数
 	char a[100];
 	char b[100];
-	char c;//运算符号 
+	char c; // 运算符号
 };
 
-void addition(char d[100], char e[100])//加法功能主函数 
+void addition(char d[100], char e[100])
 {
-	int x[100] = { 0 }, y[100] = { 0 }, z[105] = { 0 };
-	int len1, len2, len;
-	int i, c, j = 0, k = 0, l = 0;
-	len1 = strlen(d);
-	len2 = strlen(e);
-	for (i = len1 - 1; i >= 0; i--)//将两个字符串中的字符转化为数字，并倒序储存到数组中 
+	int x[100] = {0}, y[100] = {0}, z[105] = {0};
+	int len1 = strlen(d), len2 = strlen(e);
+	int i, carry = 0, maxLen = max(len1, len2); // carry 表示进位
+
+	// 将输入字符串倒序存储到数组中
+	for (i = 0; i < len1; i++)
+		x[i] = d[len1 - 1 - i] - '0';
+	for (i = 0; i < len2; i++)
+		y[i] = e[len2 - 1 - i] - '0';
+
+	// 从最低位开始计算
+	for (i = 0; i < maxLen; i++)
 	{
-		x[j] = d[i] - '0';
-		j++;
+		int sum = x[i] + y[i] + carry;
+		z[i] = sum % 10;  // 当前位的值
+		carry = sum / 10; // 更新进位
 	}
-	for (c = len2 - 1; c >= 0; c--)
+
+	// 如果最后还有进位，则补充最高位
+	if (carry > 0)
 	{
-		y[k] = e[c] - '0';
-		k++;
+		z[maxLen] = carry;
+		maxLen++;
 	}
-	if (len1 > len2)
-		len = len1;
-	else
-		len = len2;
-	i = 0;//从最低位(个位)开始进行计算
-	int m = 0;
-	for (i = 0; i < len; i++)
+
+	// 输出完整算式
+	cout << d << " + " << e << " = ";
+
+	// 输出结果
+	bool leadingZero = true; // 去除前导零
+	for (i = maxLen - 1; i >= 0; i--)
 	{
-		z[i] = (x[i] + y[i] + m) % 10;//将所得数的个位存到数组z[i]中去 
-		if ((x[i] + y[i] + m) >= 10)
-			m = 1;
-		else
-			m = 0;
+		if (z[i] != 0 || !leadingZero)
+		{
+			cout << z[i];
+			leadingZero = false;
+		}
 	}
-	if ((x[i - 1] + y[i - 1] + m) >= 10)//判断运算的最大位的和是否>=10 ,此时i=len-1
-		z[i] = 1;
-	else
-		i = i - 1;
-	cout << "相加运算结果=";
-	for (i = i; i >= 0; i--)
-	{
-		cout << z[i];
-	}
+
+	if (leadingZero) // 如果结果全为零
+		cout << "0";
 	cout << endl;
 }
 
-void subtraction(char d[100], char e[100])//减法主函数 
+void subtraction(char d[100], char e[100])
 {
-	char x[100] = { 0 }, y[100] = { 0 }, z[105] = { 0 };
+	char x[100] = {0}, y[100] = {0}, z[105] = {0};
 	int len1, len2, len;
 	int i, j = 0, k = 0;
+
 	len1 = strlen(d);
 	len2 = strlen(e);
 	len = max(len1, len2);
-	cout << "相减运算结果=：";
+
+	// 标记是否需要输出负号
+	bool isNegative = false;
+
+	// 如果被减数小于减数，标记为负数并交换两数
 	if (strcmp(d, e) < 0)
 	{
-		cout << "-";
+		isNegative = true;
 		swap(d, e);
+		swap(len1, len2);
 	}
-	for (i = len1 - 1, j = 0; i >= 0; i--)//将两个字符串中的字符转化为数字，并倒序储存到数组中
+
+	// 将两个字符串中的字符转化为数字，并倒序存储到数组中
+	for (i = len1 - 1, j = 0; i >= 0; i--)
 		x[j++] = d[i] - '0';
 	for (i = len2 - 1, k = 0; i >= 0; i--)
 		y[k++] = e[i] - '0';
-	//相减
-	int m = 0;//借位标志
-	for (int i = 0; i <= len - 1; i++)
+
+	// 相减
+	int m = 0; // 借位标志
+	for (i = 0; i < len; i++)
 	{
-		if (x[i] - y[i] - m >= 0)
+		int diff = x[i] - y[i] - m;
+		if (diff >= 0)
 		{
-			z[i] = x[i] - y[i] - m + '0';
+			z[i] = diff; // 直接存储结果
 			m = 0;
 		}
 		else
 		{
-			z[i] = x[i] - y[i] - m + 10 + '0';
+			z[i] = diff + 10; // 借位
 			m = 1;
 		}
 	}
-	for (int i = strlen(z) - 1; i >= 0; i--)
-	{
-		cout << z[i];
-	}
+
+	// 去掉前导零并输出结果
+	int lastNonZero = len - 1;
+	while (lastNonZero > 0 && z[lastNonZero] == 0)
+		lastNonZero--; // 找到最后一个非零位
+
+	// 打印完整算式
+	if (isNegative)
+		cout << "-"; // 输出负号
+	cout << d;
+	cout << " - ";
+	cout << e;
+	cout << " = ";
+	for (i = lastNonZero; i >= 0; i--)
+		cout << (int)z[i]; // 从高位到低位输出结果
 	cout << endl;
 }
-void multiplication(char d[100], char e[100])//乘法主函数 
+
+void multiplication(char d[100], char e[100])
 {
-	char x[MAX + 10] = { 0 }, y[MAX + 10] = { 0 }, z[MAX * 2 + 10] = { 0 };
-	int len1, len2, i, j, m = 0;
-	char temp;
-	len1 = strlen(d);
-	len2 = strlen(e);
-	for (j = 0, i = len1 - 1; i >= 0; i--)//将字符串中字符转化为数字，并倒序储存 
+	char x[105] = {0}, y[105] = {0}, z[210] = {0}; // 定义足够大的数组
+	int len1 = strlen(d), len2 = strlen(e), i, j, m = 0;
+
+	// 将字符串中字符转化为数字，并倒序存储
+	for (j = 0, i = len1 - 1; i >= 0; i--)
 		x[j++] = d[i] - '0';
 	for (j = 0, i = len2 - 1; i >= 0; i--)
 		y[j++] = e[i] - '0';
+
+	// 大数乘法核心逻辑
 	for (int j = 0; j <= len1 + len2 - 2; j++)
 	{
 		for (int i = 0; i <= len1 - 1; i++)
@@ -116,30 +142,35 @@ void multiplication(char d[100], char e[100])//乘法主函数
 				z[j] += x[i] * y[j - i];
 		}
 	}
+
+	// 处理进位
 	for (int j = 0; j <= len1 + len2 - 1; j++)
 	{
-		if (z[j] + m < 10)
-		{
-			z[j] = z[j] + m + '0';
-			m = 0;
-		}
-		else
-		{
-			temp = z[j] + m;
-			z[j] = temp % 10 + '0';
-			m = (int)(temp / 10);
-		}
+		int temp = z[j] + m;
+		z[j] = temp % 10; // 存储当前位的数字
+		m = temp / 10;	  // 存储进位
 	}
-	cout << "相乘运算结果=";
-	for (i = strlen(z) - 1; i >= 0; i--)
+
+	// 计算结果长度，去掉前导零
+	int resultLen = len1 + len2;
+	while (resultLen > 1 && z[resultLen - 1] == 0)
+		resultLen--; // 忽略高位的零
+
+	// 输出完整算式
+	cout << d << " * " << e << " = ";
+
+	// 输出结果
+	for (i = resultLen - 1; i >= 0; i--)
 	{
-		cout << z[i];
+		cout << (int)z[i];
 	}
+	cout << endl;
 }
-void sub(int x[], int y[], int len1, int len2)//除法子函数 
+
+void sub(int x[], int y[], int len1, int len2) // 除法子函数
 {
 	int i;
-	int digit;//大数的位数 
+	int digit; // 大数的位数
 	for (i = 0; i < len1; i++)
 	{
 		if (x[i] < y[i])
@@ -150,7 +181,7 @@ void sub(int x[], int y[], int len1, int len2)//除法子函数
 		else
 			x[i] = x[i] - y[i];
 	}
-	for (i = len1 - 1; i >= 0; i--)//判断减法结束之后，被除数的位数 
+	for (i = len1 - 1; i >= 0; i--) // 判断减法结束之后，被除数的位数
 	{
 		if (x[i])
 		{
@@ -159,196 +190,195 @@ void sub(int x[], int y[], int len1, int len2)//除法子函数
 		}
 	}
 }
-int judge(int x[], int y[], int len1, int len2)//除法子函数 
+int judge(int x[], int y[], int len1, int len2)
 {
 	int i;
 	if (len1 < len2)
-		return -1;
-	if (len1 == len2)//若两个数位数相等 
-	{
+		return -1; // 如果被除数长度小于除数长度，返回-1
+	if (len1 == len2)
+	{ // 若两个数位数相等
 		for (i = len1 - 1; i >= 0; i--)
 		{
-			if (x[i] == y[i])//对应位的数相等 
+			if (x[i] == y[i]) // 对应位的数相等
 				continue;
-			if (x[i] > y[i])//被除数 大于 除数，返回值为1 
+			if (x[i] > y[i]) // 被除数大于除数，返回1
 				return 1;
-			if (x[i] < y[i])//被除数 小于 除数，返回值为-1 
+			if (x[i] < y[i]) // 被除数小于除数，返回-1
 				return -1;
 		}
-		return 0;//被除数 等于 除数，返回值为0 
+		return 0; // 被除数等于除数，返回0
 	}
+	// 如果 len1 大于 len2，应该在这里返回一个值
+	return 1; // 假设被除数大于除数，返回1
 }
-void division(char d[100], char e[100])//除法主函数 
+
+int adjustLength(int x[], int len1)
 {
-	int i, j = 3, k = 0, m = 0, temp;
-	int x[100] = { 0 }, y[100] = { 0 }, z[100] = { 0 };
-	int digit;//大数的位数 
-	int len1, len2, len;//len两个大数位数的差值   
-	len1 = strlen(d) + 3;//被除数位数，为四舍五入保留两位小数，对被除数放大 1000倍 
-	len2 = strlen(e);//除数位数
-	for (i = len1 - 1, j = 0; i >= 0; i--)//将字符串中各个元素倒序储存在数组中 
-		x[j++] = d[i] - '0';
-	for (i = len2 - 1, k = 0; i >= 0; i--)
-		y[k++] = e[i] - '0';
-	if (len1 < len2)//当被除数位数 小于 除数位数时 
+	// 从高位开始检查，找到非零的位置
+	while (len1 > 0 && x[len1 - 1] == 0)
 	{
-		cout << "0.00" << endl;
-		cout << "被除数也太小了吧，敢不敢再大一点!" << endl;
+		len1--;
 	}
-	else //当被除数位数 大于或者 除数位数时
-	{
-		len = len1 - len2;//两个大数位数的差值
-		for (i = len1 - 1; i >= 0; i--)//将除数后补零，使得两个大数位数相同
-		{
-			if (i >= len)
-				y[i] = y[i - len];
-			else
-				y[i] = 0;
-		}
-		len2 = len1;//将两个大数数位相同 		
-		digit = len1;	//将原被除数位数赋值给digit 
-		for (j = 0; j <= len; j++)
-		{
-			z[len - j] = 0;
-			while (((temp = judge(x, y, len1, len2)) >= 0) && digit >= k)//判断两个数之间的关系以及位数与除数原位数的关系 
-			{
-				sub(x, y, len1, len2);	//大数减法函数			    
-				z[len - j]++;//储存商的每一位
-				len1 = digit;//重新修改被除数的长度
-				if (len1 < len2 && y[len2 - 1] == 0)
-					len2 = len1;//将len1长度赋给len2;						
-			}
-			if (temp < 0)//若被除数 小于 除数，除数减小一位。
-			{
-				for (i = 1; i < len2; i++)
-					y[i - 1] = y[i];
-				y[i - 1] = 0;
-				if (len1 < len2)
-					len2--;
-			}
-		}
-		cout << "相除运算结果=";
-		for (i = len; i > 0; i--)//去掉前缀0 
-		{
-			if (z[i])
-				break;
-		}
-		if (z[0] >= 5)
-			z[1] = z[1] + 1;
-		for (i = 99; i >= 0; i--)
-		{
-			if (z[i] != 0)
-			{
-				m = i;
-				break;
-			}
-		}
-		if (m >= 3)
-		{
-			if (z[m - 3] >= 5)
-				z[m - 2] = z[m - 2] + 1;
-			cout << z[m] << "." << z[m - 1] << z[m - 2] << "E+" << m - 3 << endl;
-		}
-		else
-		{
-			for (; i > 2; i--)
-			{
-				cout << z[i];
-			}
-			cout << z[3];
-			cout << ".";
-			for (i = 2; i >= 1; i--)
-			{
-				cout << z[i];
-			}
-		}
-		cout << endl;
-	}
+	return len1;
 }
-int main()//主函数 
+
+void division(char d[100], char e[100])
+{
+	int i, j, temp;
+	int x[100] = {0}, y[100] = {0}, z[100] = {0};
+	int len1 = strlen(d), len2 = strlen(e), len;
+
+	// 将字符串倒序存储到数组中
+	for (i = len1 - 1, j = 0; i >= 0; i--)
+		x[j++] = d[i] - '0';
+	for (i = len2 - 1, j = 0; i >= 0; i--)
+		y[j++] = e[i] - '0';
+
+	// 如果除数为 1，直接输出被除数
+	if (len2 == 1 && y[0] == 1)
+	{
+		cout << d << " / " << e << " = " << d << endl;
+		return;
+	}
+
+	// 判断被除数是否小于除数
+	if (len1 < len2 || (len1 == len2 && strcmp(d, e) < 0))
+	{
+		cout << d << " / " << e << " = 0.00" << endl;
+		return;
+	}
+
+	// 补零对齐被除数和除数的长度
+	len = len1 - len2;
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		if (i >= len)
+			y[i] = y[i - len];
+		else
+			y[i] = 0;
+	}
+	len2 = len1;
+
+	// 商的计算
+	for (j = 0; j <= len; j++)
+	{
+		z[len - j] = 0;
+		while ((temp = judge(x, y, len1, len2)) >= 0)
+		{
+			sub(x, y, len1, len2); // 大数减法
+			z[len - j]++;
+			len1 = adjustLength(x, len1); // 调整被除数的有效长度
+		}
+		// 除数右移一位
+		for (i = 1; i < len2; i++)
+			y[i - 1] = y[i];
+		y[len2 - 1] = 0;
+		len2--;
+	}
+
+	// 去掉商的前导零
+	int firstNonZero = 0;
+	for (i = 99; i >= 0; i--)
+	{
+		if (z[i] != 0)
+		{
+			firstNonZero = i;
+			break;
+		}
+	}
+
+	// 输出完整算式
+	cout << d << " / " << e << " = ";
+	for (i = firstNonZero; i >= 0; i--)
+		cout << z[i];
+	cout << endl;
+}
+
+int main()
 {
 	Bignumber number;
-	int x[100] = { 0 }, y[100] = { 0 }, z[105] = { 0 }, n[105] = { 0 };
-	int i, j = 0, len1, len2;
-	char m, b, shu1, shu2;
+	char m;
 	cout << "--------------------------------" << endl;
 	cout << "|******欢迎使用大数计算器******|" << endl;
 	cout << "--------------------------------" << endl;
-	while (1)//可以多次连续输入 
+
+	while (true)
 	{
 
-		cout << "请输入计算表达式：" << endl;
-		while (1)
+		// 输入第一个数
+		while (true)
 		{
 			cout << "输入第一个数：";
 			cin >> number.a;
-			len1 = strlen(number.a);
-			for (i = len1 - 1, j = 0; i >= 0; i--)
+			bool valid = true;
+			for (int i = 0; i < strlen(number.a); i++)
 			{
-				x[j] = number.a[i] - '0';
-				j++;
-			}
-			for (j = len1 - 1; j > 0; j--)
-			{
-				if (x[j] <= 9 && x[j] >= 0 && x[j - 1] <= 9 && x[j - 1] >= 0)
+				if (number.a[i] < '0' || number.a[i] > '9')
 				{
-					shu1 = 'n';
-				}
-				else
-					cout << "输入正确的数字" << endl;
-				break;
-			}
-			if (shu1 == 'n')
-				break;
-		}
-		while (1)
-		{
-			cout << "输入运算符号：";
-			cin >> number.c;
-			if (number.c != '+' && number.c != '-' && number.c != '*' && number.c != '/')
-			{
-				cout << "输入正确的运算符号" << endl;
-			}
-			else
-				break;
-		}
-		while (1)
-		{
-			cout << "输入第二个数：";
-			cin >> number.b;
-			len2 = strlen(number.b);
-			for (i = len2 - 1, j = 0; i >= 0; i--)
-			{
-				x[j] = number.b[i] - '0';
-				j++;
-			}
-			for (j = len2 - 1; j > 0; j--)
-			{
-				if (x[j] <= 9 && x[j] >= 0 && x[j - 1] <= 9 && x[j - 1] >= 0)
-				{
-					shu2 = 'n';
-				}
-				else
-				{
-					cout << "输入正确的数字" << endl;
+					valid = false;
 					break;
 				}
 			}
-			if (shu2 == 'n')
+			if (valid)
 				break;
+			else
+				cout << "请输入正确的数字！" << endl;
 		}
+
+		// 输入运算符
+		while (true)
+		{
+			cout << "输入运算符号：";
+			cin >> number.c;
+			if (number.c == '+' || number.c == '-' || number.c == '*' || number.c == '/')
+			{
+				break;
+			}
+			else
+			{
+				cout << "输入正确的运算符号！" << endl;
+				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // 忽略错误输入
+			}
+		}
+
+		// 输入第二个数
+		while (true)
+		{
+			cout << "输入第二个数：";
+			cin >> number.b;
+			bool valid = true;
+			for (int i = 0; i < strlen(number.b); i++)
+			{
+				if (number.b[i] < '0' || number.b[i] > '9')
+				{
+					valid = false;
+					break;
+				}
+			}
+			if (valid)
+				break;
+			else
+				cout << "请输入正确的数字！" << endl;
+		}
+
+		// 调用运算函数
 		if (number.c == '+')
-			addition(number.a, number.b);// 调用加法函数 
+			addition(number.a, number.b);
 		else if (number.c == '-')
-			subtraction(number.a, number.b);// 调用减法函数 
+			subtraction(number.a, number.b);
 		else if (number.c == '*')
-			multiplication(number.a, number.b);//调用乘法函数 
+			multiplication(number.a, number.b);
 		else if (number.c == '/')
-			division(number.a, number.b);//调用除法函数 	
-		cout << endl;
-		cout << "是否继续使用：（y/n)" << endl;
+			division(number.a, number.b);
+
+		// 是否继续
+		cout << "是否继续使用：（y/n) ";
 		cin >> m;
-		if (m == 'n')
+		if (m == 'n' || m == 'N')
 			break;
 	}
+
+	cout << "感谢使用大数计算器！" << endl;
+	_sleep(1500);
+	return 0;
 }
