@@ -9,6 +9,7 @@ using namespace std;
 // 声明需要调用的函数
 void clearScreen();
 void currencies();
+void displayHeader();
 void calculate(const string& fromCode, const string& toCode);
 float fetch_exchange_rate(const string& fromCode, const string& toCode, float money);
 
@@ -25,19 +26,28 @@ size_t WriteCallback(void* contents, size_t size, size_t nmemb, string* userp) {
 
 int main() {
     char sev_type;
-    cout << "--------------------------------" << endl;
-    cout << "|*****欢迎进入外币兑换系统*****|" << endl;
-    cout << "--------------------------------" << endl;
     while (1) {
+        displayHeader(); // 显示系统标题
+        cout << endl;
         cout << "一、请选择兑换方式:" << endl;
         cout << "    1.外币兑换人民币(1)" << endl;
         cout << "    2.人民币兑换外币(2)" << endl;
         cout << "    3.退出系统(0)" << endl;
         cin >> sev_type;
         clearScreen(); // 清除之前的输出
+
         if (sev_type != '1' && sev_type != '2' && sev_type != '0') {
             cout << "无效选择，请重新输入..." << endl;
-        } else if (sev_type == '1') {
+            cin.clear();
+            cin.sync();
+            _sleep(800); // 等待 1 秒
+            displayHeader(); // 显示系统标题
+            continue; // 无效选择时跳过后续处理，重新输入
+        }
+
+        displayHeader(); // 显示系统标题（仅在有效选择时调用）
+        
+        if (sev_type == '1') {
             cout << "您的选择是：外币兑换人民币" << endl;
             currencies();
         } else if (sev_type == '2') {
@@ -47,9 +57,15 @@ int main() {
             cout << "感谢您的使用" << endl;
             _sleep(1000); // 等待 1 秒
             return 0; // 退出程序
-            break; // 跳出循环，准备退出程序
         }
     }
+}
+
+// 显示系统标题的函数
+void displayHeader() {
+    cout << "--------------------------------" << endl;
+    cout << "|*********外币兑换系统*********|" << endl;
+    cout << "--------------------------------" << endl;
 }
 
 void clearScreen() {
@@ -71,6 +87,7 @@ void currencies() {
         cout << "    7.韩元(KRW)" << endl;
         cout << "    8.泰铢(THB)" << endl;
         cout << "    9.卢布(RUB)" << endl;
+        cout << "    10.返回" << endl;
         cin >> kind;
         clearScreen(); // 清除之前的输出
 
@@ -84,12 +101,18 @@ void currencies() {
             case 7: fromCode = "KRW"; break;
             case 8: fromCode = "THB"; break;
             case 9: fromCode = "RUB"; break;
+            case 10:
+                return; // 直接返回函数，回到主循环
             default:
                 cout << "无效选择，请重新输入..." << endl;
                 cin.clear();
                 cin.sync();
+                _sleep(800); // 等待 1 秒
+                clearScreen(); // 清除之前的输出
+                displayHeader(); // 显示系统标题
                 continue;
         }
+        displayHeader(); // 显示系统标题
         cout << "您的选择是：" << fromCode << endl;
         calculate(fromCode, toCode);
         break;
@@ -116,6 +139,7 @@ void calculate(const string& fromCode, const string& toCode) {
     if (exchange != -1) {
         cout << "兑换结果：" << num << " " << fromCode << " = " << exchange << " " << toCode << endl;
         cout << "感谢您的使用，再见！" << endl; // 输出结束提示
+        cout << endl;
         cout << "3秒后将回到主页面" << endl;
         _sleep(3000); // 等待 3 秒
         clearScreen(); // 清除之前的输出
@@ -149,6 +173,7 @@ float fetch_exchange_rate(const string& fromCode, const string& toCode, float mo
         // 发送请求
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
+            displayHeader();
             cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << endl;
             return -1;
         }
