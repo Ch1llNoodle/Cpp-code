@@ -9,20 +9,20 @@ using namespace std;
 
 class Bignumber
 {
-public://¶Ô´óÊı½øĞĞ´¢´æ£¬¿ÉÒÔ¸ü¸ÄÎ»Êı 
+public://å¯¹å¤§æ•°è¿›è¡Œå‚¨å­˜ï¼Œå¯ä»¥æ›´æ”¹ä½æ•° 
 	char a[100];
 	char b[100];
-	char c;//ÔËËã·ûºÅ 
+	char c;//è¿ç®—ç¬¦å· 
 };
 
-void addition(char d[100], char e[100])//¼Ó·¨¹¦ÄÜÖ÷º¯Êı 
+void addition(char d[100], char e[100])//åŠ æ³•åŠŸèƒ½ä¸»å‡½æ•° 
 {
 	int x[100] = { 0 }, y[100] = { 0 }, z[105] = { 0 };
 	int len1, len2, len;
 	int i, c, j = 0, k = 0, l = 0;
 	len1 = strlen(d);
 	len2 = strlen(e);
-	for (i = len1 - 1; i >= 0; i--)//½«Á½¸ö×Ö·û´®ÖĞµÄ×Ö·û×ª»¯ÎªÊı×Ö£¬²¢µ¹Ğò´¢´æµ½Êı×éÖĞ 
+	for (i = len1 - 1; i >= 0; i--)//å°†ä¸¤ä¸ªå­—ç¬¦ä¸²ä¸­çš„å­—ç¬¦è½¬åŒ–ä¸ºæ•°å­—ï¼Œå¹¶å€’åºå‚¨å­˜åˆ°æ•°ç»„ä¸­ 
 	{
 		x[j] = d[i] - '0';
 		j++;
@@ -36,21 +36,21 @@ void addition(char d[100], char e[100])//¼Ó·¨¹¦ÄÜÖ÷º¯Êı
 		len = len1;
 	else
 		len = len2;
-	i = 0;//´Ó×îµÍÎ»(¸öÎ»)¿ªÊ¼½øĞĞ¼ÆËã
+	i = 0;//ä»æœ€ä½ä½(ä¸ªä½)å¼€å§‹è¿›è¡Œè®¡ç®—
 	int m = 0;
 	for (i = 0; i < len; i++)
 	{
-		z[i] = (x[i] + y[i] + m) % 10;//½«ËùµÃÊıµÄ¸öÎ»´æµ½Êı×éz[i]ÖĞÈ¥ 
+		z[i] = (x[i] + y[i] + m) % 10;//å°†æ‰€å¾—æ•°çš„ä¸ªä½å­˜åˆ°æ•°ç»„z[i]ä¸­å» 
 		if ((x[i] + y[i] + m) >= 10)
 			m = 1;
 		else
 			m = 0;
 	}
-	if ((x[i - 1] + y[i - 1] + m) >= 10)//ÅĞ¶ÏÔËËãµÄ×î´óÎ»µÄºÍÊÇ·ñ>=10 ,´ËÊ±i=len-1
+	if ((x[i - 1] + y[i - 1] + m) >= 10)//åˆ¤æ–­è¿ç®—çš„æœ€å¤§ä½çš„å’Œæ˜¯å¦>=10 ,æ­¤æ—¶i=len-1
 		z[i] = 1;
 	else
 		i = i - 1;
-	cout << "Ïà¼ÓÔËËã½á¹û=";
+	cout << "ç›¸åŠ è¿ç®—ç»“æœ=";
 	for (i = i; i >= 0; i--)
 	{
 		cout << z[i];
@@ -58,7 +58,7 @@ void addition(char d[100], char e[100])//¼Ó·¨¹¦ÄÜÖ÷º¯Êı
 	cout << endl;
 }
 
-void subtraction(char d[100], char e[100])//¼õ·¨Ö÷º¯Êı 
+void subtraction(char d[100], char e[100])//å‡æ³•ä¸»å‡½æ•° 
 {
 	char x[100] = { 0 }, y[100] = { 0 }, z[105] = { 0 };
 	int len1, len2, len;
@@ -66,18 +66,18 @@ void subtraction(char d[100], char e[100])//¼õ·¨Ö÷º¯Êı
 	len1 = strlen(d);
 	len2 = strlen(e);
 	len = max(len1, len2);
-	cout << "Ïà¼õÔËËã½á¹û=£º";
+	cout << "ç›¸å‡è¿ç®—ç»“æœ=ï¼š";
 	if (strcmp(d, e) < 0)
 	{
 		cout << "-";
 		swap(d, e);
 	}
-	for (i = len1 - 1, j = 0; i >= 0; i--)//½«Á½¸ö×Ö·û´®ÖĞµÄ×Ö·û×ª»¯ÎªÊı×Ö£¬²¢µ¹Ğò´¢´æµ½Êı×éÖĞ
+	for (i = len1 - 1, j = 0; i >= 0; i--)//å°†ä¸¤ä¸ªå­—ç¬¦ä¸²ä¸­çš„å­—ç¬¦è½¬åŒ–ä¸ºæ•°å­—ï¼Œå¹¶å€’åºå‚¨å­˜åˆ°æ•°ç»„ä¸­
 		x[j++] = d[i] - '0';
 	for (i = len2 - 1, k = 0; i >= 0; i--)
 		y[k++] = e[i] - '0';
-	//Ïà¼õ
-	int m = 0;//½èÎ»±êÖ¾
+	//ç›¸å‡
+	int m = 0;//å€Ÿä½æ ‡å¿—
 	for (int i = 0; i <= len - 1; i++)
 	{
 		if (x[i] - y[i] - m >= 0)
@@ -97,14 +97,14 @@ void subtraction(char d[100], char e[100])//¼õ·¨Ö÷º¯Êı
 	}
 	cout << endl;
 }
-void multiplication(char d[100], char e[100])//³Ë·¨Ö÷º¯Êı 
+void multiplication(char d[100], char e[100])//ä¹˜æ³•ä¸»å‡½æ•° 
 {
 	char x[MAX + 10] = { 0 }, y[MAX + 10] = { 0 }, z[MAX * 2 + 10] = { 0 };
 	int len1, len2, i, j, m = 0;
 	char temp;
 	len1 = strlen(d);
 	len2 = strlen(e);
-	for (j = 0, i = len1 - 1; i >= 0; i--)//½«×Ö·û´®ÖĞ×Ö·û×ª»¯ÎªÊı×Ö£¬²¢µ¹Ğò´¢´æ 
+	for (j = 0, i = len1 - 1; i >= 0; i--)//å°†å­—ç¬¦ä¸²ä¸­å­—ç¬¦è½¬åŒ–ä¸ºæ•°å­—ï¼Œå¹¶å€’åºå‚¨å­˜ 
 		x[j++] = d[i] - '0';
 	for (j = 0, i = len2 - 1; i >= 0; i--)
 		y[j++] = e[i] - '0';
@@ -130,16 +130,16 @@ void multiplication(char d[100], char e[100])//³Ë·¨Ö÷º¯Êı
 			m = (int)(temp / 10);
 		}
 	}
-	cout << "Ïà³ËÔËËã½á¹û=";
+	cout << "ç›¸ä¹˜è¿ç®—ç»“æœ=";
 	for (i = strlen(z) - 1; i >= 0; i--)
 	{
 		cout << z[i];
 	}
 }
-void sub(int x[], int y[], int len1, int len2)//³ı·¨×Óº¯Êı 
+void sub(int x[], int y[], int len1, int len2)//é™¤æ³•å­å‡½æ•° 
 {
 	int i;
-	int digit;//´óÊıµÄÎ»Êı 
+	int digit;//å¤§æ•°çš„ä½æ•° 
 	for (i = 0; i < len1; i++)
 	{
 		if (x[i] < y[i])
@@ -150,7 +150,7 @@ void sub(int x[], int y[], int len1, int len2)//³ı·¨×Óº¯Êı
 		else
 			x[i] = x[i] - y[i];
 	}
-	for (i = len1 - 1; i >= 0; i--)//ÅĞ¶Ï¼õ·¨½áÊøÖ®ºó£¬±»³ıÊıµÄÎ»Êı 
+	for (i = len1 - 1; i >= 0; i--)//åˆ¤æ–­å‡æ³•ç»“æŸä¹‹åï¼Œè¢«é™¤æ•°çš„ä½æ•° 
 	{
 		if (x[i])
 		{
@@ -159,66 +159,66 @@ void sub(int x[], int y[], int len1, int len2)//³ı·¨×Óº¯Êı
 		}
 	}
 }
-int judge(int x[], int y[], int len1, int len2)//³ı·¨×Óº¯Êı 
+int judge(int x[], int y[], int len1, int len2)//é™¤æ³•å­å‡½æ•° 
 {
 	int i;
 	if (len1 < len2)
 		return -1;
-	if (len1 == len2)//ÈôÁ½¸öÊıÎ»ÊıÏàµÈ 
+	if (len1 == len2)//è‹¥ä¸¤ä¸ªæ•°ä½æ•°ç›¸ç­‰ 
 	{
 		for (i = len1 - 1; i >= 0; i--)
 		{
-			if (x[i] == y[i])//¶ÔÓ¦Î»µÄÊıÏàµÈ 
+			if (x[i] == y[i])//å¯¹åº”ä½çš„æ•°ç›¸ç­‰ 
 				continue;
-			if (x[i] > y[i])//±»³ıÊı ´óÓÚ ³ıÊı£¬·µ»ØÖµÎª1 
+			if (x[i] > y[i])//è¢«é™¤æ•° å¤§äº é™¤æ•°ï¼Œè¿”å›å€¼ä¸º1 
 				return 1;
-			if (x[i] < y[i])//±»³ıÊı Ğ¡ÓÚ ³ıÊı£¬·µ»ØÖµÎª-1 
+			if (x[i] < y[i])//è¢«é™¤æ•° å°äº é™¤æ•°ï¼Œè¿”å›å€¼ä¸º-1 
 				return -1;
 		}
-		return 0;//±»³ıÊı µÈÓÚ ³ıÊı£¬·µ»ØÖµÎª0 
+		return 0;//è¢«é™¤æ•° ç­‰äº é™¤æ•°ï¼Œè¿”å›å€¼ä¸º0 
 	}
 }
-void division(char d[100], char e[100])//³ı·¨Ö÷º¯Êı 
+void division(char d[100], char e[100])//é™¤æ³•ä¸»å‡½æ•° 
 {
 	int i, j = 3, k = 0, m = 0, temp;
 	int x[100] = { 0 }, y[100] = { 0 }, z[100] = { 0 };
-	int digit;//´óÊıµÄÎ»Êı 
-	int len1, len2, len;//lenÁ½¸ö´óÊıÎ»ÊıµÄ²îÖµ   
-	len1 = strlen(d) + 3;//±»³ıÊıÎ»Êı£¬ÎªËÄÉáÎåÈë±£ÁôÁ½Î»Ğ¡Êı£¬¶Ô±»³ıÊı·Å´ó 1000±¶ 
-	len2 = strlen(e);//³ıÊıÎ»Êı
-	for (i = len1 - 1, j = 0; i >= 0; i--)//½«×Ö·û´®ÖĞ¸÷¸öÔªËØµ¹Ğò´¢´æÔÚÊı×éÖĞ 
+	int digit;//å¤§æ•°çš„ä½æ•° 
+	int len1, len2, len;//lenä¸¤ä¸ªå¤§æ•°ä½æ•°çš„å·®å€¼   
+	len1 = strlen(d) + 3;//è¢«é™¤æ•°ä½æ•°ï¼Œä¸ºå››èˆäº”å…¥ä¿ç•™ä¸¤ä½å°æ•°ï¼Œå¯¹è¢«é™¤æ•°æ”¾å¤§ 1000å€ 
+	len2 = strlen(e);//é™¤æ•°ä½æ•°
+	for (i = len1 - 1, j = 0; i >= 0; i--)//å°†å­—ç¬¦ä¸²ä¸­å„ä¸ªå…ƒç´ å€’åºå‚¨å­˜åœ¨æ•°ç»„ä¸­ 
 		x[j++] = d[i] - '0';
 	for (i = len2 - 1, k = 0; i >= 0; i--)
 		y[k++] = e[i] - '0';
-	if (len1 < len2)//µ±±»³ıÊıÎ»Êı Ğ¡ÓÚ ³ıÊıÎ»ÊıÊ± 
+	if (len1 < len2)//å½“è¢«é™¤æ•°ä½æ•° å°äº é™¤æ•°ä½æ•°æ—¶ 
 	{
 		cout << "0.00" << endl;
-		cout << "±»³ıÊıÒ²Ì«Ğ¡ÁË°É£¬¸Ò²»¸ÒÔÙ´óÒ»µã!" << endl;
+		cout << "è¢«é™¤æ•°ä¹Ÿå¤ªå°äº†å§ï¼Œæ•¢ä¸æ•¢å†å¤§ä¸€ç‚¹!" << endl;
 	}
-	else //µ±±»³ıÊıÎ»Êı ´óÓÚ»òÕß ³ıÊıÎ»ÊıÊ±
+	else //å½“è¢«é™¤æ•°ä½æ•° å¤§äºæˆ–è€… é™¤æ•°ä½æ•°æ—¶
 	{
-		len = len1 - len2;//Á½¸ö´óÊıÎ»ÊıµÄ²îÖµ
-		for (i = len1 - 1; i >= 0; i--)//½«³ıÊıºó²¹Áã£¬Ê¹µÃÁ½¸ö´óÊıÎ»ÊıÏàÍ¬
+		len = len1 - len2;//ä¸¤ä¸ªå¤§æ•°ä½æ•°çš„å·®å€¼
+		for (i = len1 - 1; i >= 0; i--)//å°†é™¤æ•°åè¡¥é›¶ï¼Œä½¿å¾—ä¸¤ä¸ªå¤§æ•°ä½æ•°ç›¸åŒ
 		{
 			if (i >= len)
 				y[i] = y[i - len];
 			else
 				y[i] = 0;
 		}
-		len2 = len1;//½«Á½¸ö´óÊıÊıÎ»ÏàÍ¬ 		
-		digit = len1;	//½«Ô­±»³ıÊıÎ»Êı¸³Öµ¸ødigit 
+		len2 = len1;//å°†ä¸¤ä¸ªå¤§æ•°æ•°ä½ç›¸åŒ 		
+		digit = len1;	//å°†åŸè¢«é™¤æ•°ä½æ•°èµ‹å€¼ç»™digit 
 		for (j = 0; j <= len; j++)
 		{
 			z[len - j] = 0;
-			while (((temp = judge(x, y, len1, len2)) >= 0) && digit >= k)//ÅĞ¶ÏÁ½¸öÊıÖ®¼äµÄ¹ØÏµÒÔ¼°Î»ÊıÓë³ıÊıÔ­Î»ÊıµÄ¹ØÏµ 
+			while (((temp = judge(x, y, len1, len2)) >= 0) && digit >= k)//åˆ¤æ–­ä¸¤ä¸ªæ•°ä¹‹é—´çš„å…³ç³»ä»¥åŠä½æ•°ä¸é™¤æ•°åŸä½æ•°çš„å…³ç³» 
 			{
-				sub(x, y, len1, len2);	//´óÊı¼õ·¨º¯Êı			    
-				z[len - j]++;//´¢´æÉÌµÄÃ¿Ò»Î»
-				len1 = digit;//ÖØĞÂĞŞ¸Ä±»³ıÊıµÄ³¤¶È
+				sub(x, y, len1, len2);	//å¤§æ•°å‡æ³•å‡½æ•°			    
+				z[len - j]++;//å‚¨å­˜å•†çš„æ¯ä¸€ä½
+				len1 = digit;//é‡æ–°ä¿®æ”¹è¢«é™¤æ•°çš„é•¿åº¦
 				if (len1 < len2 && y[len2 - 1] == 0)
-					len2 = len1;//½«len1³¤¶È¸³¸ølen2;						
+					len2 = len1;//å°†len1é•¿åº¦èµ‹ç»™len2;						
 			}
-			if (temp < 0)//Èô±»³ıÊı Ğ¡ÓÚ ³ıÊı£¬³ıÊı¼õĞ¡Ò»Î»¡£
+			if (temp < 0)//è‹¥è¢«é™¤æ•° å°äº é™¤æ•°ï¼Œé™¤æ•°å‡å°ä¸€ä½ã€‚
 			{
 				for (i = 1; i < len2; i++)
 					y[i - 1] = y[i];
@@ -227,8 +227,8 @@ void division(char d[100], char e[100])//³ı·¨Ö÷º¯Êı
 					len2--;
 			}
 		}
-		cout << "Ïà³ıÔËËã½á¹û=";
-		for (i = len; i > 0; i--)//È¥µôÇ°×º0 
+		cout << "ç›¸é™¤è¿ç®—ç»“æœ=";
+		for (i = len; i > 0; i--)//å»æ‰å‰ç¼€0 
 		{
 			if (z[i])
 				break;
@@ -265,22 +265,22 @@ void division(char d[100], char e[100])//³ı·¨Ö÷º¯Êı
 		cout << endl;
 	}
 }
-int main()//Ö÷º¯Êı 
+int main()//ä¸»å‡½æ•° 
 {
 	Bignumber number;
 	int x[100] = { 0 }, y[100] = { 0 }, z[105] = { 0 }, n[105] = { 0 };
 	int i, j = 0, len1, len2;
 	char m, b, shu1, shu2;
 	cout << "--------------------------------" << endl;
-	cout << "|******»¶Ó­Ê¹ÓÃ´óÊı¼ÆËãÆ÷******|" << endl;
+	cout << "|******æ¬¢è¿ä½¿ç”¨å¤§æ•°è®¡ç®—å™¨******|" << endl;
 	cout << "--------------------------------" << endl;
-	while (1)//¿ÉÒÔ¶à´ÎÁ¬ĞøÊäÈë 
+	while (1)//å¯ä»¥å¤šæ¬¡è¿ç»­è¾“å…¥ 
 	{
 
-		cout << "ÇëÊäÈë¼ÆËã±í´ïÊ½£º" << endl;
+		cout << "è¯·è¾“å…¥è®¡ç®—è¡¨è¾¾å¼ï¼š" << endl;
 		while (1)
 		{
-			cout << "ÊäÈëµÚÒ»¸öÊı£º";
+			cout << "è¾“å…¥ç¬¬ä¸€ä¸ªæ•°ï¼š";
 			cin >> number.a;
 			len1 = strlen(number.a);
 			for (i = len1 - 1, j = 0; i >= 0; i--)
@@ -295,7 +295,7 @@ int main()//Ö÷º¯Êı
 					shu1 = 'n';
 				}
 				else
-					cout << "ÊäÈëÕıÈ·µÄÊı×Ö" << endl;
+					cout << "è¾“å…¥æ­£ç¡®çš„æ•°å­—" << endl;
 				break;
 			}
 			if (shu1 == 'n')
@@ -303,18 +303,18 @@ int main()//Ö÷º¯Êı
 		}
 		while (1)
 		{
-			cout << "ÊäÈëÔËËã·ûºÅ£º";
+			cout << "è¾“å…¥è¿ç®—ç¬¦å·ï¼š";
 			cin >> number.c;
 			if (number.c != '+' && number.c != '-' && number.c != '*' && number.c != '/')
 			{
-				cout << "ÊäÈëÕıÈ·µÄÔËËã·ûºÅ" << endl;
+				cout << "è¾“å…¥æ­£ç¡®çš„è¿ç®—ç¬¦å·" << endl;
 			}
 			else
 				break;
 		}
 		while (1)
 		{
-			cout << "ÊäÈëµÚ¶ş¸öÊı£º";
+			cout << "è¾“å…¥ç¬¬äºŒä¸ªæ•°ï¼š";
 			cin >> number.b;
 			len2 = strlen(number.b);
 			for (i = len2 - 1, j = 0; i >= 0; i--)
@@ -330,7 +330,7 @@ int main()//Ö÷º¯Êı
 				}
 				else
 				{
-					cout << "ÊäÈëÕıÈ·µÄÊı×Ö" << endl;
+					cout << "è¾“å…¥æ­£ç¡®çš„æ•°å­—" << endl;
 					break;
 				}
 			}
@@ -338,15 +338,15 @@ int main()//Ö÷º¯Êı
 				break;
 		}
 		if (number.c == '+')
-			addition(number.a, number.b);// µ÷ÓÃ¼Ó·¨º¯Êı 
+			addition(number.a, number.b);// è°ƒç”¨åŠ æ³•å‡½æ•° 
 		else if (number.c == '-')
-			subtraction(number.a, number.b);// µ÷ÓÃ¼õ·¨º¯Êı 
+			subtraction(number.a, number.b);// è°ƒç”¨å‡æ³•å‡½æ•° 
 		else if (number.c == '*')
-			multiplication(number.a, number.b);//µ÷ÓÃ³Ë·¨º¯Êı 
+			multiplication(number.a, number.b);//è°ƒç”¨ä¹˜æ³•å‡½æ•° 
 		else if (number.c == '/')
-			division(number.a, number.b);//µ÷ÓÃ³ı·¨º¯Êı 	
+			division(number.a, number.b);//è°ƒç”¨é™¤æ³•å‡½æ•° 	
 		cout << endl;
-		cout << "ÊÇ·ñ¼ÌĞøÊ¹ÓÃ£º£¨y/n)" << endl;
+		cout << "æ˜¯å¦ç»§ç»­ä½¿ç”¨ï¼šï¼ˆy/n)" << endl;
 		cin >> m;
 		if (m == 'n')
 			break;
