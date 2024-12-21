@@ -41,7 +41,7 @@ int main() {
             cin.clear();
             cin.sync();
             _sleep(800); // 等待 1 秒
-            displayHeader(); // 显示系统标题
+            clearScreen(); // 显示系统标题
             continue; // 无效选择时跳过后续处理，重新输入
         }
 
