@@ -7,6 +7,7 @@
 using namespace std;
 
 // 声明需要调用的函数
+void enableAnsiEscape();
 void clearScreen();
 void currencies();
 void displayHeader();
@@ -41,7 +42,8 @@ int main() {
             cin.clear();
             cin.sync();
             _sleep(800); // 等待 1 秒
-            clearScreen(); // 显示系统标题
+            enableAnsiEscape(); // 启用 ANSI Escape Code
+            clearScreen(); // 清除之前的输出
             continue; // 无效选择时跳过后续处理，重新输入
         }
 
@@ -68,6 +70,17 @@ void displayHeader() {
     cout << "--------------------------------" << endl;
 }
 
+void enableAnsiEscape() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE) return;
+
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode)) return;
+
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(hOut, dwMode);
+}
+
 void clearScreen() {
     cout << "\033[2J\033[1;1H"; // 使用 ANSI Escape Code 清屏
 }
@@ -89,6 +102,7 @@ void currencies() {
         cout << "    9.卢布(RUB)" << endl;
         cout << "    10.返回" << endl;
         cin >> kind;
+        enableAnsiEscape(); // 启用 ANSI Escape Code
         clearScreen(); // 清除之前的输出
 
         switch (kind) {
@@ -108,6 +122,7 @@ void currencies() {
                 cin.clear();
                 cin.sync();
                 _sleep(800); // 等待 1 秒
+                enableAnsiEscape(); // 启用 ANSI Escape Code
                 clearScreen(); // 清除之前的输出
                 displayHeader(); // 显示系统标题
                 continue;
@@ -140,8 +155,10 @@ void calculate(const string& fromCode, const string& toCode) {
         cout << "兑换结果：" << num << " " << fromCode << " = " << exchange << " " << toCode << endl;
         cout << "感谢您的使用，再见！" << endl; // 输出结束提示
         cout << endl;
-        cout << "3秒后将回到主页面" << endl;
-        _sleep(3000); // 等待 3 秒
+        cout << "输入任意键回到主页面" << endl;
+        cin.ignore();
+        cin.get(); // 等待用户输入任意键
+        enableAnsiEscape(); // 启用 ANSI Escape Code
         clearScreen(); // 清除之前的输出
     } else {
         cout << "获取汇率失败，请稍后再试！" << endl;
